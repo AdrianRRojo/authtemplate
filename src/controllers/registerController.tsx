@@ -1,38 +1,24 @@
 import { FormData } from '../components/login'
-import { useNavigate } from 'react-router-dom'
-import http from '../http-common';
+// import { useNavigate } from 'react-router-dom'
 
-export default new class DataService{
-    getAll(){
-        return http.get<Array<FormData>>("/")
-    }
-    get(id: string){
-        return http.get<FormData>('/register/${id}');
-    }
-    create(data: FormData) {
-        return http.post<FormData>("/register", data);
-      }
-    
-      update(data: FormData, id: any) {
-        return http.put<any>(`/register/${id}`, data);
-      }
-    
-      delete(id: any) {
-        return http.delete<any>(`/register/${id}`);
-      }
-    
-      deleteAll() {
-        return http.delete<any>(`/register`);
-      }
-    
-      findByFname(fname: string) {
-        return http.get<Array<FormData>>(`/register?fname=${fname}`);
-      }
-}
 export const Register = async (data: FormData) => { 
-    
+    console.log("Data: ", JSON.stringify(data));
+    const options = {
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: JSON.stringify(data)
+           
+    }
     try{
-        console.log("data: ", data)
+        // console.log("data: ", data)
+       fetch("http://0.0.0.0:8000", options)
+        .then(response2 => response2.json())
+        .then(data2 => console.log(data2))
+        .catch(e => console.log(e));
+       
+
+
+
     }catch{
         console.log("error")
     }

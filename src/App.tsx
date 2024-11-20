@@ -7,7 +7,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" Component={Login} />
-        <Route path="/landing/:id" component={Landing}
       </Routes>
     </Router>
   );
