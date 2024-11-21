@@ -6,9 +6,13 @@ export const Register = async (data: FormData) => {
   console.log("Data: ", JSON.stringify(data));
   var password = data.password;
   var hashedPassword = bcrypt.hashSync(password, salt);
-
+  //for log in later:
+  /*
+    bcrypt.compare(password, hashedPassword)
+  */
   data.password = hashedPassword;
 
+  
   
   try {
 
