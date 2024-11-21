@@ -1,8 +1,69 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@bearz/chars@^0.0.0": "0.0.0",
+    "jsr:@bearz/dotenv@*": "0.0.1",
+    "jsr:@bearz/env@^0.0.0": "0.0.0",
+    "jsr:@bearz/fmt@^0.0.0": "0.0.0",
+    "jsr:@bearz/process@^0.0.0": "0.0.0",
+    "jsr:@bearz/runtime-info@^0.0.0": "0.0.0",
+    "jsr:@bearz/slices@^0.0.0": "0.0.0",
+    "jsr:@bearz/strings@^0.0.0": "0.0.0",
+    "jsr:@std/dotenv@*": "0.225.2",
     "npm:@types/node@*": "22.5.4",
     "npm:mysql2@^2.3.3": "2.3.3"
+  },
+  "jsr": {
+    "@bearz/chars@0.0.0": {
+      "integrity": "51ee7c73f3b67261569bde432a1ab080c9ef536467b22d8215549a8a8aa3566a"
+    },
+    "@bearz/dotenv@0.0.1": {
+      "integrity": "85de368ec8997f0306112da64feb3b8f574d808e894834d473d9d65802ed6534",
+      "dependencies": [
+        "jsr:@bearz/chars",
+        "jsr:@bearz/env",
+        "jsr:@bearz/runtime-info",
+        "jsr:@bearz/strings"
+      ]
+    },
+    "@bearz/env@0.0.0": {
+      "integrity": "1943ae30037be448dcf25c5a63ed8016663ce317aad4ddea6c9ff6273cdf174c",
+      "dependencies": [
+        "jsr:@bearz/chars",
+        "jsr:@bearz/runtime-info",
+        "jsr:@bearz/strings"
+      ]
+    },
+    "@bearz/fmt@0.0.0": {
+      "integrity": "8183226df2cdbdfb5ad5513f9aafbb8635f531305393d063fad25fb81b0d8a24",
+      "dependencies": [
+        "jsr:@bearz/process"
+      ]
+    },
+    "@bearz/process@0.0.0": {
+      "integrity": "31e2e1c8f97b4d0ec0ce9cb52bb736c56915b2fa9d0849fbc861dc8689e00d1c"
+    },
+    "@bearz/runtime-info@0.0.0": {
+      "integrity": "a2c550656e0f00f899514db219f10bc28a7bd46dfa9182321f25ee93a9c7a566"
+    },
+    "@bearz/slices@0.0.0": {
+      "integrity": "3cf4d9ec874eefb3f246b49e77a2b17ddac540b7f853f5e14503045f7dbcee63",
+      "dependencies": [
+        "jsr:@bearz/chars",
+        "jsr:@bearz/fmt",
+        "jsr:@bearz/runtime-info"
+      ]
+    },
+    "@bearz/strings@0.0.0": {
+      "integrity": "a4de9218f88bcb5e3d18f67653f36884fdcd5c4bbc686095a7f23d5485f99f1d",
+      "dependencies": [
+        "jsr:@bearz/chars",
+        "jsr:@bearz/slices"
+      ]
+    },
+    "@std/dotenv@0.225.2": {
+      "integrity": "e2025dce4de6c7bca21dece8baddd4262b09d5187217e231b033e088e0c4dd23"
+    }
   },
   "npm": {
     "@types/node@22.5.4": {
@@ -81,6 +142,9 @@
   },
   "remote": {
     "https://deno.land/std@0.224.0/async/delay.ts": "f90dd685b97c2f142b8069082993e437b1602b8e2561134827eeb7c12b95c499",
+    "https://deno.land/std@0.224.0/dotenv/mod.ts": "0180eaeedaaf88647318811cdaa418cc64dc51fb08354f91f5f480d0a1309f7d",
+    "https://deno.land/std@0.224.0/dotenv/parse.ts": "09977ff88dfd1f24f9973a338f0f91bbdb9307eb5ff6085446e7c423e4c7ba0c",
+    "https://deno.land/std@0.224.0/dotenv/stringify.ts": "275da322c409170160440836342eaa7cf012a1d11a7e700d8ca4e7f2f8aa4615",
     "https://deno.land/std@0.224.0/http/server.ts": "f9313804bf6467a1704f45f76cb6cd0a3396a3b31c316035e6a4c2035d1ea514"
   },
   "workspace": {
