@@ -1,14 +1,17 @@
 import { FormData } from "../components/login";
-// import { useNavigate } from 'react-router-dom'
+import bcrypt from 'bcryptjs';
+const salt = bcrypt.genSaltSync(10);
 
 export const Register = async (data: FormData) => {
   console.log("Data: ", JSON.stringify(data));
+  var password = data.password;
+  var hashedPassword = bcrypt.hashSync(password, salt);
+
+  data.password = hashedPassword;
+
+  
   try {
-    // const options = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(data),
-    // };
+
 
     const response = await fetch("http://0.0.0.0:8000",{
       method: "POST",

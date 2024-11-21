@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect,useState} from "react";
 import { Register } from "../controllers/registerController";
 
 export interface FormData {
@@ -9,7 +9,6 @@ export interface FormData {
     phone: string;
 
 }
-// const user: Users = {name: "Test user", id: 1, role: "Admin", banned: false}
 
 
 export default function Login(){
@@ -33,7 +32,6 @@ export default function Login(){
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
-
         setFormData((prevData) => ({...prevData, [name]: value}))
     }
     
