@@ -1,5 +1,5 @@
 import { useEffect,useState } from "react";
-import { Register } from "../controllers/registerController";
+import { registerController } from "../controllers/registerController";
 
 export interface FormData {
   fname: string;
@@ -9,7 +9,7 @@ export interface FormData {
   phone: string;
 }
 
-export default function Login() {
+export default function Register() {
   const [formData, setFormData] = useState<FormData>({
     fname: "",
     lname: "",
@@ -29,7 +29,7 @@ export default function Login() {
         setFormData((prevData) => ({
             ...prevData, phone
           }));
-      await Register(formData);
+      await registerController(formData);
     } catch (error) {
       console.log("Error", error);
     }

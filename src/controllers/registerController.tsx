@@ -1,8 +1,8 @@
-import { FormData } from "../components/login";
+import { FormData } from "../components/register";
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
 
-export const Register = async (data: FormData) => {
+export const registerController = async (data: FormData) => {
   console.log("Data: ", JSON.stringify(data));
   var password = data.password;
   var hashedPassword = bcrypt.hashSync(password, salt);
