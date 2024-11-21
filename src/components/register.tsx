@@ -76,6 +76,7 @@ export default function Register() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+
   return (
     <div className="columns-6">
       <form onSubmit={handleSubmit}>
