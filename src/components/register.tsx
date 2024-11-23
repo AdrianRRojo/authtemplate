@@ -20,16 +20,24 @@ export default function Register() {
 
   const [phone,setPhone] = useState("+1 ");
   useEffect(() => {
-    console.log(formData.phone); 
+    console.log("Phone: ", formData.phone); 
   }, [formData.phone]);
   const handleSubmit = async (event: React.FormEvent) => {
+
     event.preventDefault();
 
     try {
         setFormData((prevData) => ({
             ...prevData, phone
           }));
-      await registerController(formData);
+      const rcResponse: any = await registerController(formData)
+        .then(response => response?.toString(),
+      );
+      if(!rcResponse.ok){
+        console.log("rcResponse is not okay:", rcResponse)   
+      }else{
+        console.log("rcResponse is okay:", rcResponse)   
+      }
     } catch (error) {
       console.log("Error", error);
     }

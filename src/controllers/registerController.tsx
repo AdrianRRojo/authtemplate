@@ -19,14 +19,17 @@ export const registerController = async (data: FormData) => {
   }
   if (fname.length < 2) {
     errorMsg = "First name length is invalid";
+    errorList.push(errorMsg);
     errors = true;
   }
   if (lname.length < 2) {
     errorMsg = "Last name length is invalid";
+    errorList.push(errorMsg);
     errors = true;
   }
   if (password.length < 6) {
     errorMsg = "Password length is invalid";
+    errorList.push(errorMsg);
     errors = true;
   }
 
@@ -42,6 +45,7 @@ export const registerController = async (data: FormData) => {
   if (!hasUpperCase(password)) {
     errorMsg =
       "Please ensure password meets all requirements: No capitalized character";
+      errorList.push(errorMsg);
     errors = true;
   }
 
@@ -49,7 +53,8 @@ export const registerController = async (data: FormData) => {
   if (!regex.test(password)) {
     errorMsg =
       "Please ensure password meets all requirements: Does not contain a special character";
-    errors = true;
+      errorList.push(errorMsg);
+      errors = true;
   }
 
   const hasNumber = /\d/.test(password);
@@ -57,7 +62,8 @@ export const registerController = async (data: FormData) => {
   if (!hasNumber) {
     errorMsg =
       "Please ensure password meets all requirements: Does not contain a number";
-    errors = true;
+      errorList.push(errorMsg);
+      errors = true;
   }
 
   if (errors) {
