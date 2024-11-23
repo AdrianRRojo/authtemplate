@@ -1,8 +1,13 @@
 import { FormData } from "../components/register";
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
+import { useState } from "react";
+// import { useCookies } from "react-cookie";
 
 export const registerController = async (data: FormData) => {
+
+  // const [cookies, setCookie, removeCookie] = useCookies(['login']);
+
   var errors = false;
   var errorMsg: string;
   const errorList: string[] = [];
@@ -105,6 +110,9 @@ export const registerController = async (data: FormData) => {
 
       if (!response.ok) {
         throw new Error("Failed to register user");
+      }
+      else{
+        // setCookie('login', true, {path: '/', maxAge: 100000})
       }
 
       const info = await response.json();
