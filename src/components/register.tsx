@@ -9,6 +9,11 @@ export interface FormData {
   phone: string;
 }
 
+interface rcMessages{
+  id: string,
+  message: String
+}
+
 export default function Register() {
   const [formData, setFormData] = useState<FormData>({
     fname: "",
@@ -23,7 +28,7 @@ export default function Register() {
     console.log("Phone: ", formData.phone); 
   }, [formData.phone]);
 
-  const [rcMsg, setRcMsg] = useState<any[]>([]);
+  var [rcMsg, setRcMsg] = useState<rcMessages[]>([{id: '', message: ''}]);
 
   const handleSubmit = async (event: React.FormEvent) => {
 
@@ -94,6 +99,10 @@ export default function Register() {
   };
 
 
+  const clearState = () =>{
+    setRcMsg([])
+  }
+
   return (
     <div className="columns-6">
       <form onSubmit={handleSubmit}>
@@ -155,7 +164,7 @@ export default function Register() {
           
         />
 
-        <button type="submit">Submit</button>
+        <button type="submit" onClick={clearState}>Submit</button>
       </form>
       {rcMsg.map(msgs => (
         <li key={msgs.id}>{msgs.message}</li>
