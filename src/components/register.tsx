@@ -22,6 +22,9 @@ export default function Register() {
   useEffect(() => {
     console.log("Phone: ", formData.phone); 
   }, [formData.phone]);
+
+  const [rcMsg, setRcMsg] = useState<any[]>([]);
+
   const handleSubmit = async (event: React.FormEvent) => {
 
     event.preventDefault();
@@ -31,10 +34,16 @@ export default function Register() {
             ...prevData, phone
           }));
       const rcResponse: any = await registerController(formData)
-        .then(response => response?.toString(),
-      );
+        .then(response => response)
+        .catch(e => console.warn(e));
       if(!rcResponse.ok){
-        console.log("rcResponse is not okay:", rcResponse)   
+        console.log("rcResponse is not okay:", rcResponse);
+        rcResponse.map((msg: string, idx: string) => {
+          setRcMsg((prevData) => ([
+            ...prevData, {id: idx, message: msg}
+          ]));
+        });
+          
       }else{
         console.log("rcResponse is okay:", rcResponse)   
       }
@@ -148,6 +157,9 @@ export default function Register() {
 
         <button type="submit">Submit</button>
       </form>
+      {rcMsg.map(msgs => (
+        <li key={msgs.id}>{msgs.message}</li>
+      ))}
     </div>
   );
 }
