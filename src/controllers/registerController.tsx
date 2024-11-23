@@ -11,6 +11,7 @@ export const registerController = async (data: FormData) => {
   var lname = data.lname;
   var password = data.password;
 
+  const regex = /[^a-zA-Z0-9\s]/;
   // Length checks
   if (email.length < 4) {
     errorMsg = "Please set a valid email";
@@ -33,6 +34,19 @@ export const registerController = async (data: FormData) => {
     errors = true;
   }
 
+  // fname and lname check
+  if(regex.test(fname)){
+    errorMsg =
+      "First and Last name cannot contain special characters.";
+      errorList.push(errorMsg);
+      errors = true;
+  }
+  if(regex.test(fname)){
+    errorMsg =
+      "First and Last name cannot contain special characters.";
+      errorList.push(errorMsg);
+      errors = true;
+  }
   //password checks
   function hasUpperCase(str: string) {
     for (let i = 0; i < str.length; i++) {
@@ -49,7 +63,7 @@ export const registerController = async (data: FormData) => {
     errors = true;
   }
 
-  const regex = /[^a-zA-Z0-9\s]/;
+
   if (!regex.test(password)) {
     errorMsg =
       "Please ensure password meets all requirements: Does not contain a special character";
