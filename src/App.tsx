@@ -10,7 +10,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {getCookie ? <Route path="/" Component={Landing} /> : <Route path="/" Component={Register} />}
+        {getCookie ? <Route path="/home" Component={Landing} /> : <Route path="/" Component={Register} />}
         {/* <Route path="/" Component={Register} /> */}
       </Routes>
     </Router>

@@ -1,7 +1,7 @@
 import { FormData } from "../components/register";
 import bcrypt from "bcryptjs";
 import Cookies from 'js-cookie';
-import { useState } from "react";
+
 const salt = bcrypt.genSaltSync(10);
 
 // import { useCookies } from "react-cookie";
@@ -123,11 +123,15 @@ export const registerController = async (data: FormData) => {
       }
       else{
         // setCookie('login', true, {path: '/', maxAge: 100000})
+      
         Cookies.set('Login',token, {expires: 2, path: '/'});
+        
       }
 
       const info = await response.json();
-      console.log(info);
+      console.log("info: ", info);
+
+      return true;
     } catch (error) {
       console.error("Error during registration:", error);
     }
