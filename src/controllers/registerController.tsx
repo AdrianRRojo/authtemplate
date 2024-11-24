@@ -1,8 +1,11 @@
 import { FormData } from "../components/register";
 import bcrypt from "bcryptjs";
-const salt = bcrypt.genSaltSync(10);
+import Cookies from 'js-cookie';
 import { useState } from "react";
+const salt = bcrypt.genSaltSync(10);
+
 // import { useCookies } from "react-cookie";
+
 
 export const registerController = async (data: FormData) => {
 
@@ -93,10 +96,17 @@ export const registerController = async (data: FormData) => {
     var hashedPassword = bcrypt.hashSync(password, salt);
     //for log in later:
     /*
-    bcrypt.compare(password, hashedPassword)
+    bcrypt.compareSync(password, hashedPassword)
   */
     data.password = hashedPassword;
 
+      const today: Date = new Date();
+
+      const fname: string = data.fname;
+      const signature: any = today + fname;
+
+      var tokenSalt = bcrypt.genSaltSync(10);
+      const token = bcrypt.hashSync(signature,tokenSalt);
     try {
       const response = await fetch("http://0.0.0.0:8000", {
         method: "POST",
@@ -113,6 +123,7 @@ export const registerController = async (data: FormData) => {
       }
       else{
         // setCookie('login', true, {path: '/', maxAge: 100000})
+        Cookies.set('Login',token, {expires: 2, path: '/'});
       }
 
       const info = await response.json();
