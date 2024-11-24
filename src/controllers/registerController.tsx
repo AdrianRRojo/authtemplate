@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { FormData } from "../components/register";
 import bcrypt from "bcryptjs";
 import Cookies from 'js-cookie';
+
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -8,7 +10,7 @@ const salt = bcrypt.genSaltSync(10);
 
 
 export const registerController = async (data: FormData) => {
-
+  const [userID, setUserID] = useState('');
   // const [cookies, setCookie, removeCookie] = useCookies(['login']);
 
   var errors = false;
@@ -18,6 +20,25 @@ export const registerController = async (data: FormData) => {
   var fname = data.fname;
   var lname = data.lname;
   var password = data.password;
+
+  const checkIfUserExists = async() => {
+    
+    const searchParams  = new URLSearchParams({
+      email: email
+    })
+    try{
+      const userIdResponse = await fetch(`http://0.0.0.0:8000/getUserByEmail?${searchParams.toString()}`);
+      setUserID(await userIdResponse.json());
+
+      if(!userIdResponse.ok){
+        console.log("user id not ok")
+      }
+      
+    }catch(error){
+      console.log(error);
+    }
+  }
+
 
   const regex = /[^a-zA-Z0-9\s]/;
   // Length checks
