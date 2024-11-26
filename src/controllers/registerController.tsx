@@ -29,13 +29,14 @@ export const RegisterController = async (data: FormData) => {
     try{
       const userIdResponse = await fetch(`http://0.0.0.0:8000/getUserByEmail?${searchParams}`);
       userID = await userIdResponse.json();
-      console.log("UserID from RC: ", userID);
+      //console.log("UserID from RC: ", userID);
       if(!userIdResponse.ok){
         console.log("user id not ok")
+        return true
       }
 
       if(userID.exists === false){
-        console.log("MSG:", userID.exists);
+        //console.log("MSG:", userID.exists);
           return false
       }else{
         return true
@@ -49,7 +50,7 @@ export const RegisterController = async (data: FormData) => {
   const userExists = await CheckIfUserExists(data.email);
 
   if(userExists){
-    console.log("hello?");
+   
     errorMsg = "Email already in use";
     errorList.push(errorMsg);
     errors = true;
@@ -127,7 +128,7 @@ export const RegisterController = async (data: FormData) => {
   if (errors) {
     return errorList;
   } else {
-    console.log("Data: ", JSON.stringify(data));
+    //console.log("Data: ", JSON.stringify(data));
     var password = data.password;
     var hashedPassword = bcrypt.hashSync(password, salt);
     //for log in later:
@@ -167,7 +168,7 @@ export const RegisterController = async (data: FormData) => {
       const info = await response.json();
       console.log("info: ", info);
 
-      return true;
+      
     } catch (error) {
       console.error("Error during registration:", error);
     }

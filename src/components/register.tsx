@@ -44,19 +44,19 @@ export default function Register() {
         .then(response => response)
         .catch(e => console.warn(e));
       if(rcResponse){
-        //console.log("rcResponse is not okay:", rcResponse);
+        console.log("rcResponse is not okay:", rcResponse);
         rcResponse.map((msg: string, idx: string) => {
           setRcMsg((prevData) => ([
             ...prevData, {id: idx, message: msg}
           ]));
         });
-      //navigate('/home');
+     // navigate('/home');
       //window.location.reload();
       
       }else{
-        console.log("No good:", rcResponse);
-        //navigate('/home');
-        //window.location.reload();
+        //console.log("No good:", rcResponse);
+        navigate('/home');
+        window.location.reload();
       }
     } catch (error) {
       console.log("Error", error);
