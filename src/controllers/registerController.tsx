@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { FormData } from "../components/register";
 import bcrypt from "bcryptjs";
 import Cookies from 'js-cookie';
@@ -6,11 +6,11 @@ import Cookies from 'js-cookie';
 
 const salt = bcrypt.genSaltSync(10);
 
+
 // import { useCookies } from "react-cookie";
 
 
-export const registerController = async (data: FormData) => {
-  const [userID, setUserID] = useState('');
+export const RegisterController = async (data: FormData) => {
   // const [cookies, setCookie, removeCookie] = useCookies(['login']);
 
   var errors = false;
@@ -20,26 +20,41 @@ export const registerController = async (data: FormData) => {
   var fname = data.fname;
   var lname = data.lname;
   var password = data.password;
+  var userID: any | undefined;
 
-  const checkIfUserExists = async() => {
-    
+  const CheckIfUserExists = async(email: string) => {
     const searchParams  = new URLSearchParams({
       email: email
     })
     try{
-      const userIdResponse = await fetch(`http://0.0.0.0:8000/getUserByEmail?${searchParams.toString()}`);
-      setUserID(await userIdResponse.json());
-
+      const userIdResponse = await fetch(`http://0.0.0.0:8000/getUserByEmail?${searchParams}`);
+      userID = await userIdResponse.json();
+      console.log("UserID from RC: ", userID);
       if(!userIdResponse.ok){
         console.log("user id not ok")
+      }
+
+      if(userID.exists === false){
+        console.log("MSG:", userID.exists);
+          return false
+      }else{
+        return true
       }
       
     }catch(error){
       console.log(error);
     }
   }
+  
+  const userExists = await CheckIfUserExists(data.email);
 
+  if(userExists){
+    console.log("hello?");
+    errorMsg = "Email already in use";
+    errorList.push(errorMsg);
+    errors = true;
 
+  }
   const regex = /[^a-zA-Z0-9\s]/;
   // Length checks
   if (email.length < 4) {
@@ -120,7 +135,7 @@ export const registerController = async (data: FormData) => {
     bcrypt.compareSync(password, hashedPassword)
   */
     data.password = hashedPassword;
-
+    
       const today: Date = new Date();
 
       const fname: string = data.fname;
@@ -144,7 +159,7 @@ export const registerController = async (data: FormData) => {
       }
       else{
         // setCookie('login', true, {path: '/', maxAge: 100000})
-      
+     
         Cookies.set('Login',token, {expires: 2, path: '/'});
         
       }

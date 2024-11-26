@@ -66,7 +66,11 @@ Deno.serve(async (req) => {
       console.log("method:", req.method);
       return new Response("Method Not Allowed", { status: 405 });
     }
-  } else if (url.pathname === "/getUserByEmail") {
+  }
+
+  if (url.pathname === "/getUserByEmail") {
+      
+        console.log("Made it to GUBE", req.method);
     if (req.method === "GET") {
       try {
         const urlParams = new URLSearchParams(url.search); // For GET parameters
@@ -86,13 +90,13 @@ Deno.serve(async (req) => {
 
         if (rows.length === 0) {
           return new Response(
-            JSON.stringify({ message: "User not found" }),
-            { status: 404, headers: corsHeaders }
+            JSON.stringify({ message: "User not found",exists: false }),
+            { status: 200, headers: corsHeaders }
           );
         }
 
         return new Response(
-          JSON.stringify({ message: "User found", userID: rows[0].id }),
+          JSON.stringify({ message: "User found", exists: true, userID: rows[0].id }),
           {
             status: 200,
             headers: {
