@@ -1,11 +1,16 @@
+import {  useState } from "react";
 import { FormData } from "../components/register";
 import bcrypt from "bcryptjs";
+import Cookies from 'js-cookie';
+
+
 const salt = bcrypt.genSaltSync(10);
-import { useState } from "react";
+
+
 // import { useCookies } from "react-cookie";
 
-export const registerController = async (data: FormData) => {
 
+export const RegisterController = async (data: FormData) => {
   // const [cookies, setCookie, removeCookie] = useCookies(['login']);
 
   var errors = false;
@@ -15,7 +20,42 @@ export const registerController = async (data: FormData) => {
   var fname = data.fname;
   var lname = data.lname;
   var password = data.password;
+  var userID: any | undefined;
 
+  const CheckIfUserExists = async(email: string) => {
+    const searchParams  = new URLSearchParams({
+      email: email
+    })
+    try{
+      const userIdResponse = await fetch(`http://0.0.0.0:8000/getUserByEmail?${searchParams}`);
+      userID = await userIdResponse.json();
+      //console.log("UserID from RC: ", userID);
+      if(!userIdResponse.ok){
+        console.log("user id not ok")
+        return true
+      }
+
+      if(userID.exists === false){
+        //console.log("MSG:", userID.exists);
+          return false
+      }else{
+        return true
+      }
+      
+    }catch(error){
+      console.log(error);
+    }
+  }
+  
+  const userExists = await CheckIfUserExists(data.email);
+
+  if(userExists){
+   
+    errorMsg = "Email already in use";
+    errorList.push(errorMsg);
+    errors = true;
+
+  }
   const regex = /[^a-zA-Z0-9\s]/;
   // Length checks
   if (email.length < 4) {
@@ -88,17 +128,24 @@ export const registerController = async (data: FormData) => {
   if (errors) {
     return errorList;
   } else {
-    console.log("Data: ", JSON.stringify(data));
+    //console.log("Data: ", JSON.stringify(data));
     var password = data.password;
     var hashedPassword = bcrypt.hashSync(password, salt);
     //for log in later:
     /*
-    bcrypt.compare(password, hashedPassword)
+    bcrypt.compareSync(password, hashedPassword)
   */
     data.password = hashedPassword;
+    
+      const today: Date = new Date();
 
+      const fname: string = data.fname;
+      const signature: any = today + fname;
+
+      var tokenSalt = bcrypt.genSaltSync(10);
+      const token = bcrypt.hashSync(signature,tokenSalt);
     try {
-      const response = await fetch("http://0.0.0.0:8000", {
+      const response = await fetch("http://0.0.0.0:8000/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,10 +160,15 @@ export const registerController = async (data: FormData) => {
       }
       else{
         // setCookie('login', true, {path: '/', maxAge: 100000})
+     
+        Cookies.set('Login',token, {expires: 2, path: '/'});
+        
       }
 
       const info = await response.json();
-      console.log(info);
+      console.log("info: ", info);
+
+      
     } catch (error) {
       console.error("Error during registration:", error);
     }

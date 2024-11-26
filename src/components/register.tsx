@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
-import { registerController } from "../controllers/registerController";
-
+import { RegisterController } from "../controllers/registerController";
+import { useNavigate } from "react-router-dom";
 export interface FormData {
   fname: string;
   lname: string;
@@ -15,6 +15,8 @@ interface rcMessages{
 }
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<FormData>({
     fname: "",
     lname: "",
@@ -38,19 +40,23 @@ export default function Register() {
         setFormData((prevData) => ({
             ...prevData, phone
           }));
-      const rcResponse: any = await registerController(formData)
+      const rcResponse: any | undefined = await RegisterController(formData)
         .then(response => response)
         .catch(e => console.warn(e));
-      if(!rcResponse.ok){
+      if(rcResponse){
         console.log("rcResponse is not okay:", rcResponse);
         rcResponse.map((msg: string, idx: string) => {
           setRcMsg((prevData) => ([
             ...prevData, {id: idx, message: msg}
           ]));
         });
-          
+     // navigate('/home');
+      //window.location.reload();
+      
       }else{
-        console.log("rcResponse is okay:", rcResponse)   
+        //console.log("No good:", rcResponse);
+        navigate('/home');
+        window.location.reload();
       }
     } catch (error) {
       console.log("Error", error);
