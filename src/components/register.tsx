@@ -107,10 +107,10 @@ export default function Register() {
   return (
     <div className="bg-sky-700">
       <div className="flex flex-row min-h-screen justify-center items-center">
-      <form className="w-7/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
-          <div className="px-4 py-6 sm:p-8 flex flex-row justify-center items-center">
-            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3 w-96">
+      <form className="w-5/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
+          <div className="px-4 py-6 sm:p-8 flex flex-row justify-center items-center ">
+            <div className="grid w-10/12 grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3">
                 <label htmlFor="fname" className="block text-sm/6 font-medium text-gray-900">
                   First name
                 </label>
@@ -123,7 +123,7 @@ export default function Register() {
                     value={formData.fname}
                     required
                     autoComplete="given-name"
-                    className="block pl-3 w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
+                    className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
                   />
                 </div>
               </div>
