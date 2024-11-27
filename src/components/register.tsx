@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { RegisterController } from "../controllers/registerController";
 import { useNavigate } from "react-router-dom";
 export interface FormData {
@@ -7,11 +7,12 @@ export interface FormData {
   email: string;
   password: string;
   phone: string;
+
 }
 
-interface rcMessages{
-  id: string,
-  message: String
+interface rcMessages {
+  id: string;
+  message: String;
 }
 
 export default function Register() {
@@ -25,37 +26,37 @@ export default function Register() {
     phone: "",
   });
 
-  const [phone,setPhone] = useState("+1 ");
+  const [phone, setPhone] = useState("+1 ");
   useEffect(() => {
-    console.log("Phone: ", formData.phone); 
+    console.log("Phone: ", formData.phone);
   }, [formData.phone]);
 
-  var [rcMsg, setRcMsg] = useState<rcMessages[]>([{id: '', message: ''}]);
+  var [rcMsg, setRcMsg] = useState<rcMessages[]>([{ id: "", message: "" }]);
 
   const handleSubmit = async (event: React.FormEvent) => {
-
     event.preventDefault();
 
     try {
-        setFormData((prevData) => ({
-            ...prevData, phone
-          }));
+      setFormData((prevData) => ({
+        ...prevData,
+        phone,
+      }));
       const rcResponse: any | undefined = await RegisterController(formData)
-        .then(response => response)
-        .catch(e => console.warn(e));
-      if(rcResponse){
+        .then((response) => response)
+        .catch((e) => console.warn(e));
+      if (rcResponse) {
         console.log("rcResponse is not okay:", rcResponse);
         rcResponse.map((msg: string, idx: string) => {
-          setRcMsg((prevData) => ([
-            ...prevData, {id: idx, message: msg}
-          ]));
+          setRcMsg((prevData) => [
+            ...prevData,
+            { id: idx, message: msg },
+          ]);
         });
-     // navigate('/home');
-      //window.location.reload();
-      
-      }else{
+        // navigate('/home');
+        //window.location.reload();
+      } else {
         //console.log("No good:", rcResponse);
-        navigate('/home');
+        navigate("/home");
         window.location.reload();
       }
     } catch (error) {
@@ -64,7 +65,7 @@ export default function Register() {
   };
   const formatThePhoneNumber = (
     value: string,
-    onChange: (phoneNumber: string) => void
+    onChange: (phoneNumber: string) => void,
   ) => {
     // Remove non-digit characters except the '+' symbol
     const cleanedValue = value.replace(/\D/g, "");
@@ -72,7 +73,6 @@ export default function Register() {
     let formattedValue = "+1";
 
     if (cleanedValue.length > 1) {
-
       if (cleanedValue.length > 1) {
         formattedValue += ` (${cleanedValue.slice(1, 4)})`;
       }
@@ -81,22 +81,18 @@ export default function Register() {
         formattedValue += ` ${cleanedValue.slice(4, 7)}`;
       }
 
-
       if (cleanedValue.length > 7) {
         formattedValue += `-${cleanedValue.slice(7, 11)}`;
       }
     }
 
-
     if (cleanedValue.length <= 1) {
       formattedValue = "+1";
     }
 
-
     setPhone(formattedValue);
     onChange(formattedValue);
     // <input type="hidden" name="phone" value={phone} onChange={handleInputChange} hidden/>
-
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,77 +100,177 @@ export default function Register() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-
-  const clearState = () =>{
-    setRcMsg([])
-  }
+  const clearState = () => {
+    setRcMsg([]);
+  };
 
   return (
-    <div className="columns-6">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="fname" className="">
-          First Name:{" "}
-        </label>
-        <input
-          id="fname"
-          type="text"
-          name="fname"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.fname}
-          required
-        />
+    <div className="bg-sky-700">
+      <div className="flex flex-row min-h-screen justify-center items-center">
+      <form className="w-7/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
+          <div className="px-4 py-6 sm:p-8 flex flex-row justify-center items-center">
+            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3 w-96">
+                <label htmlFor="fname" className="block text-sm/6 font-medium text-gray-900">
+                  First name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="fname"
+                    type="text"
+                    name="fname"
+                    onChange={handleInputChange}
+                    value={formData.fname}
+                    required
+                    autoComplete="given-name"
+                    className="block pl-3 w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
+                  />
+                </div>
+              </div>
 
-        <label htmlFor="lname"> Last Name: </label>
-        <input
-          id="lname"
-          type="text"
-          name="lname"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.lname}
-          required
-        />
+              <div className="sm:col-span-3">
+                <label htmlFor="lname" className="block text-sm/6 font-medium text-gray-900">
+                  Last name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="lname"
+                    type="text"
+                    name="lname"
+                    autoComplete="family-name"
+                    className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
+                    onChange={handleInputChange}
+                    value={formData.lname}
+                    required
+                  />
+                </div>
+              </div>
 
-        <label htmlFor="email">Email: </label>
-        <input
-          id="email"
-          type="email"
-          name="email"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.email}
-          required
-        />
+              <div className="sm:col-span-6">
+                <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                  Email address
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
+                    onChange={handleInputChange}
+                    value={formData.email}
+                    required
+                  />
+                </div>
+              </div>
 
-        <label htmlFor="password">Password: </label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.password}
-          required
-        />
+              <div className="sm:col-span-3">
+                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
+                  Password
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
+                    onChange={handleInputChange}
+                    value={formData.password}
+                    required
+                  />
+                </div>
+              </div>
 
-        <label htmlFor="phoneForm">Phone: </label>
-        <input
-          id="phoneForm"
-          type="phoneForm"
-          name="phoneForm"
-          maxLength={20}
-          className="border-2 border-blue-400"
-          onChange={(e)=> formatThePhoneNumber(e.target.value, setPhone)}
-          value={phone}
-          
-        />
+              <div className="sm:col-span-3">
+                <label htmlFor="phoneForm" className="block text-sm/6 font-medium text-gray-900">
+                  Phone Number
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="phoneForm"
+                    type="text"
+                    name="phoneForm"
+                    maxLength={20}
+                    className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm/6"
+                    onChange={(e) => formatThePhoneNumber(e.target.value, setPhone)}
+                    value={phone}
+                  />
+                </div>
+              </div>
+              {/* <div className="col-span-full">
+                <label htmlFor="street-address" className="block text-sm/6 font-medium text-gray-900">
+                  Street address
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="street-address"
+                    name="street-address"
+                    type="text"
+                    autoComplete="street-address"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                  />
+                </div>
+              </div>
 
-        <button type="submit" onClick={clearState}>Submit</button>
-      </form>
-      {rcMsg.map(msgs => (
-        <li key={msgs.id}>{msgs.message}</li>
-      ))}
-    </div>
+              <div className="sm:col-span-2 sm:col-start-1">
+                <label htmlFor="city" className="block text-sm/6 font-medium text-gray-900">
+                  City
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    autoComplete="address-level2"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-2">
+                <label htmlFor="region" className="block text-sm/6 font-medium text-gray-900">
+                  State
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="region"
+                    name="region"
+                    type="text"
+                    autoComplete="address-level1"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-2">
+                <label htmlFor="postal-code" className="block text-sm/6 font-medium text-gray-900">
+                  ZIP / Postal code
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="postal-code"
+                    name="postal-code"
+                    type="text"
+                    autoComplete="postal-code"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                  />
+                </div>
+              </div> */}
+            </div>
+          </div>
+          <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+          {/* No functionality yet */}
+            <button 
+            className="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Existing User Login</button>
+            <button
+              type="submit"
+              className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
+      </div>
   );
 }
