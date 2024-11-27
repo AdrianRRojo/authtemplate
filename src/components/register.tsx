@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { RegisterController } from "../controllers/registerController";
 import { useNavigate } from "react-router-dom";
 export interface FormData {
@@ -9,9 +9,9 @@ export interface FormData {
   phone: string;
 }
 
-interface rcMessages{
-  id: string,
-  message: String
+interface rcMessages {
+  id: string;
+  message: String;
 }
 
 export default function Register() {
@@ -25,37 +25,37 @@ export default function Register() {
     phone: "",
   });
 
-  const [phone,setPhone] = useState("+1 ");
+  const [phone, setPhone] = useState("+1 ");
   useEffect(() => {
-    console.log("Phone: ", formData.phone); 
+    console.log("Phone: ", formData.phone);
   }, [formData.phone]);
 
-  var [rcMsg, setRcMsg] = useState<rcMessages[]>([{id: '', message: ''}]);
+  var [rcMsg, setRcMsg] = useState<rcMessages[]>([{ id: "", message: "" }]);
 
   const handleSubmit = async (event: React.FormEvent) => {
-
     event.preventDefault();
 
     try {
-        setFormData((prevData) => ({
-            ...prevData, phone
-          }));
+      setFormData((prevData) => ({
+        ...prevData,
+        phone,
+      }));
       const rcResponse: any | undefined = await RegisterController(formData)
-        .then(response => response)
-        .catch(e => console.warn(e));
-      if(rcResponse){
+        .then((response) => response)
+        .catch((e) => console.warn(e));
+      if (rcResponse) {
         console.log("rcResponse is not okay:", rcResponse);
         rcResponse.map((msg: string, idx: string) => {
-          setRcMsg((prevData) => ([
-            ...prevData, {id: idx, message: msg}
-          ]));
+          setRcMsg((prevData) => [
+            ...prevData,
+            { id: idx, message: msg },
+          ]);
         });
-     // navigate('/home');
-      //window.location.reload();
-      
-      }else{
+        // navigate('/home');
+        //window.location.reload();
+      } else {
         //console.log("No good:", rcResponse);
-        navigate('/home');
+        navigate("/home");
         window.location.reload();
       }
     } catch (error) {
@@ -64,7 +64,7 @@ export default function Register() {
   };
   const formatThePhoneNumber = (
     value: string,
-    onChange: (phoneNumber: string) => void
+    onChange: (phoneNumber: string) => void,
   ) => {
     // Remove non-digit characters except the '+' symbol
     const cleanedValue = value.replace(/\D/g, "");
@@ -72,7 +72,6 @@ export default function Register() {
     let formattedValue = "+1";
 
     if (cleanedValue.length > 1) {
-
       if (cleanedValue.length > 1) {
         formattedValue += ` (${cleanedValue.slice(1, 4)})`;
       }
@@ -81,22 +80,18 @@ export default function Register() {
         formattedValue += ` ${cleanedValue.slice(4, 7)}`;
       }
 
-
       if (cleanedValue.length > 7) {
         formattedValue += `-${cleanedValue.slice(7, 11)}`;
       }
     }
 
-
     if (cleanedValue.length <= 1) {
       formattedValue = "+1";
     }
 
-
     setPhone(formattedValue);
     onChange(formattedValue);
     // <input type="hidden" name="phone" value={phone} onChange={handleInputChange} hidden/>
-
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,77 +99,75 @@ export default function Register() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-
-  const clearState = () =>{
-    setRcMsg([])
-  }
+  const clearState = () => {
+    setRcMsg([]);
+  };
 
   return (
-    <div className="columns-6">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="fname" className="">
-          First Name:{" "}
-        </label>
-        <input
-          id="fname"
-          type="text"
-          name="fname"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.fname}
-          required
-        />
+    <div className="">
+      <div className="w-full max-w-3xl grid grid-cols-2 gap-4" id="formDiv">
+        <form onSubmit={handleSubmit} className="bg-blue shadow-md rounded px-16 pt-12 pb-16 mb-8 w-">
+          <label htmlFor="fname" className=" ">
+            First Name:{" "}
+          </label>
+          <input
+            id="fname"
+            type="text"
+            name="fname"
+            className="border-2 border-blue-400"
+            onChange={handleInputChange}
+            value={formData.fname}
+            required
+          />
 
-        <label htmlFor="lname"> Last Name: </label>
-        <input
-          id="lname"
-          type="text"
-          name="lname"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.lname}
-          required
-        />
+          <label htmlFor="lname">Last Name:</label>
+          <input
+            id="lname"
+            type="text"
+            name="lname"
+            className="border-2 border-blue-400"
+            onChange={handleInputChange}
+            value={formData.lname}
+            required
+          />
 
-        <label htmlFor="email">Email: </label>
-        <input
-          id="email"
-          type="email"
-          name="email"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.email}
-          required
-        />
+          <label htmlFor="email">Email:</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            className="border-2 border-blue-400"
+            onChange={handleInputChange}
+            value={formData.email}
+            required
+          />
 
-        <label htmlFor="password">Password: </label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          className="border-2 border-blue-400"
-          onChange={handleInputChange}
-          value={formData.password}
-          required
-        />
+          <label htmlFor="password">Password:</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            className="border-2 border-blue-400"
+            onChange={handleInputChange}
+            value={formData.password}
+            required
+          />
 
-        <label htmlFor="phoneForm">Phone: </label>
-        <input
-          id="phoneForm"
-          type="phoneForm"
-          name="phoneForm"
-          maxLength={20}
-          className="border-2 border-blue-400"
-          onChange={(e)=> formatThePhoneNumber(e.target.value, setPhone)}
-          value={phone}
-          
-        />
+          <label htmlFor="phoneForm">Phone:</label>
+          <input
+            id="phoneForm"
+            type="phoneForm"
+            name="phoneForm"
+            maxLength={20}
+            className="border-2 border-blue-400"
+            onChange={(e) => formatThePhoneNumber(e.target.value, setPhone)}
+            value={phone}
+          />
 
-        <button type="submit" onClick={clearState}>Submit</button>
-      </form>
-      {rcMsg.map(msgs => (
-        <li key={msgs.id}>{msgs.message}</li>
-      ))}
+          <button type="submit" onClick={clearState}>Submit</button>
+        </form>
+      </div>
+      {rcMsg.map((msgs) => <li key={msgs.id}>{msgs.message}</li>)}
     </div>
   );
 }
