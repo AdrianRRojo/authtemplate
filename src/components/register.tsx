@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { RegisterController } from "../controllers/registerController";
 import { useNavigate } from "react-router-dom";
-import {clear} from "@testing-library/user-event/dist/clear";
+
 export interface FormData {
   fname: string;
   lname: string;
