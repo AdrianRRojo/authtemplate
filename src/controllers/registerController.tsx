@@ -26,7 +26,7 @@ export const RegisterController = async (data: FormData) => {
       email: email
     })
     try{
-      const userIdResponse = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserByEmail?${searchParams}`);
+      const userIdResponse = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
       userID = await userIdResponse.json();
       //console.log("UserID from RC: ", userID);
       if(!userIdResponse.ok){

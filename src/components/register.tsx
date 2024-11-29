@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RegisterController } from "../controllers/registerController";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +29,7 @@ export default function Register() {
 
   const [phone, setPhone] = useState("+1 ");
   useEffect(() => {
-    // console.log("Phone: ", formData.phone);
+
   }, [formData.phone]);
 
   const [rcMsg, setRcMsg] = useState<rcMessages[]>([{id: "", message: ""}]);
