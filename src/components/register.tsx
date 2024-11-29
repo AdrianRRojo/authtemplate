@@ -105,10 +105,13 @@ export default function Register() {
     setRcMsg([]);
   };
 
+  const redirect = () => {
+    navigate("/login");
+  }
   return (
     <div className="bg-sky-700">
       <div className="flex flex-row min-h-screen justify-center items-center">
-      <form onSubmit={handleSubmit} className="w-5/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
+      <form onSubmit={handleSubmit} className="w-4/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
           <div className="px-4 py-6 sm:p-8 flex flex-row justify-center items-center ">
             <div className="grid w-10/12 grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
@@ -260,9 +263,10 @@ export default function Register() {
             </div>
           </div>
           <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
-          {/* No functionality yet */}
-            <button 
-            className="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Existing User Login</button>
+
+            <button
+                onClick={redirect}
+                className="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Existing User Login</button>
             <button
               type="submit"
               onClick={clearState}
@@ -271,10 +275,11 @@ export default function Register() {
               Register
             </button>
           </div>
-        </form>
         {rcMsg.map(msgs => (
-            <li key={msgs.id}>{msgs.message}</li>
+            <li className="text-red-500 text-md font-semibold px-5 list-none mb-0.5 text-center"  key={msgs.id}>{msgs.message}</li>
         ))}
+        </form>
+
 
       </div>
       </div>
