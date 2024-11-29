@@ -1,5 +1,4 @@
-import {  useState } from "react";
-import { FormData } from "../components/register";
+import {FormData} from "../components/register";
 import bcrypt from "bcryptjs";
 import Cookies from 'js-cookie';
 
@@ -27,7 +26,7 @@ export const RegisterController = async (data: FormData) => {
       email: email
     })
     try{
-      const userIdResponse = await fetch(`http://0.0.0.0:8000/getUserByEmail?${searchParams}`);
+      const userIdResponse = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
       userID = await userIdResponse.json();
       //console.log("UserID from RC: ", userID);
       if(!userIdResponse.ok){
@@ -35,12 +34,7 @@ export const RegisterController = async (data: FormData) => {
         return true
       }
 
-      if(userID.exists === false){
-        //console.log("MSG:", userID.exists);
-          return false
-      }else{
-        return true
-      }
+      return userID.exists !== false;
       
     }catch(error){
       console.log(error);
@@ -129,13 +123,12 @@ export const RegisterController = async (data: FormData) => {
     return errorList;
   } else {
     //console.log("Data: ", JSON.stringify(data));
-    var password = data.password;
-    var hashedPassword = bcrypt.hashSync(password, salt);
+    password = data.password;
     //for log in later:
     /*
     bcrypt.compareSync(password, hashedPassword)
   */
-    data.password = hashedPassword;
+    data.password = bcrypt.hashSync(password, salt);
     
       const today: Date = new Date();
 
