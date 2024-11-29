@@ -1,6 +1,8 @@
+// @ts-ignore
 import mysql, { RowDataPacket } from "npm:mysql2@^2.3.3/promise";
 import "jsr:@std/dotenv/load";
 
+// @ts-ignore
 const connection = await mysql.createConnection({
   host: Deno.env.get("DB_HOST"),
   user: Deno.env.get("DB_USER"),
@@ -15,7 +17,7 @@ const corsHeaders = {
   "Access-Control-Max-age": "86400",
 };
 
-Deno.serve(async (req) => {
+Deno.serve(async (req: any | undefined) => {
   const url = new URL(req.url);
 
   // Handle OPTIONS request (CORS preflight)
@@ -69,7 +71,7 @@ Deno.serve(async (req) => {
   }
 
   if (url.pathname === "/getUserByEmail") {
-      
+
         console.log("Made it to GUBE", req.method);
     if (req.method === "GET") {
       try {

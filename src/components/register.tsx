@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { RegisterController } from "../controllers/registerController";
 import { useNavigate } from "react-router-dom";
+import {clear} from "@testing-library/user-event/dist/clear";
 export interface FormData {
   fname: string;
   lname: string;
@@ -31,7 +32,7 @@ export default function Register() {
     console.log("Phone: ", formData.phone);
   }, [formData.phone]);
 
-  var [rcMsg, setRcMsg] = useState<rcMessages[]>([{ id: "", message: "" }]);
+  const [rcMsg, setRcMsg] = useState<rcMessages[]>([{id: "", message: ""}]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -107,7 +108,7 @@ export default function Register() {
   return (
     <div className="bg-sky-700">
       <div className="flex flex-row min-h-screen justify-center items-center">
-      <form className="w-5/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
+      <form onSubmit={handleSubmit} className="w-5/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
           <div className="px-4 py-6 sm:p-8 flex flex-row justify-center items-center ">
             <div className="grid w-10/12 grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
@@ -264,12 +265,17 @@ export default function Register() {
             className="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Existing User Login</button>
             <button
               type="submit"
+              onClick={clearState}
               className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
             >
               Register
             </button>
           </div>
         </form>
+        {rcMsg.map(msgs => (
+            <li key={msgs.id}>{msgs.message}</li>
+        ))}
+
       </div>
       </div>
   );
