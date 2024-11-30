@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LoginController } from "../controllers/LoginController";
 import { useNavigate } from "react-router-dom";
 
@@ -10,14 +10,14 @@ export interface LoginFormData {
 interface rcMessages {
     id: string;
     message: String;
-}
+} 
 
 export default function Login() {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState<LoginFormData>({
         email: "",
-        password: "",
+        password: ""
     });
 
     const [rcMsg, setRcMsg] = useState<rcMessages[]>([{id: "", message: ""}]);
@@ -26,9 +26,7 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            const rcResponse: any | undefined = await LoginController(formData)
-                .then((response) => response)
-                .catch((e) => console.warn(e));
+            const rcResponse: any | undefined = await LoginController(formData);
             if (rcResponse) {
                 console.log("rcResponse is not okay:", rcResponse);
                 rcResponse.map((msg: string, idx: string) => {
@@ -40,9 +38,8 @@ export default function Login() {
                 // navigate('/home');
                 //window.location.reload();
             } else {
-                //console.log("No good:", rcResponse);
-                navigate("/home");
-                window.location.reload();
+                console.log("No good:", rcResponse);
+                
             }
         } catch (error) {
             console.log("Error", error);

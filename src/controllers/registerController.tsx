@@ -138,7 +138,7 @@ export const RegisterController = async (data: FormData) => {
       var tokenSalt = bcrypt.genSaltSync(10);
       const token = bcrypt.hashSync(signature,tokenSalt);
     try {
-      const response = await fetch("http://0.0.0.0:8000/register", {
+      const response = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
