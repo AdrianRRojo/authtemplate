@@ -1,7 +1,5 @@
-
 import mysql, { RowDataPacket } from "npm:mysql2@^2.3.3/promise";
 import "jsr:@std/dotenv/load";
-
 
 const connection = await mysql.createConnection({
   host: Deno.env.get("DB_HOST"),
@@ -71,7 +69,6 @@ Deno.serve(async (req) => {
   }
 
   if (url.pathname === "/getUserIDByEmail") {
-
     if (req.method === "GET") {
       try {
         const urlParams = new URLSearchParams(url.search); // For GET parameters
@@ -80,24 +77,28 @@ Deno.serve(async (req) => {
         if (!email) {
           return new Response(
             JSON.stringify({ message: "Email parameter is missing" }),
-            { status: 400, headers: corsHeaders }
+            { status: 400, headers: corsHeaders },
           );
         }
 
         const [rows] = await connection.execute<RowDataPacket[]>(
           `SELECT id FROM user_accounts WHERE email = ? LIMIT 1`,
-          [email]
+          [email],
         );
 
         if (rows.length === 0) {
           return new Response(
-            JSON.stringify({ message: "User not found",exists: false }),
-            { status: 200, headers: corsHeaders }
+            JSON.stringify({ message: "User not found", exists: false }),
+            { status: 200, headers: corsHeaders },
           );
         }
 
         return new Response(
-          JSON.stringify({ message: "User found", exists: true, userID: rows[0].id }),
+          JSON.stringify({
+            message: "User found",
+            exists: true,
+            userID: rows[0].id,
+          }),
           {
             status: 200,
             headers: {
@@ -124,7 +125,6 @@ Deno.serve(async (req) => {
     }
   }
   if (url.pathname === "/getUserInfoByID") {
-
     if (req.method === "GET") {
       try {
         const urlParams = new URLSearchParams(url.search);
@@ -132,44 +132,48 @@ Deno.serve(async (req) => {
 
         if (!id) {
           return new Response(
-              JSON.stringify({ message: "id parameter is missing" }),
-              { status: 400, headers: corsHeaders }
+            JSON.stringify({ message: "id parameter is missing" }),
+            { status: 400, headers: corsHeaders },
           );
         }
 
         const [rows] = await connection.execute<RowDataPacket[]>(
-            `SELECT id FROM user_accounts WHERE id = ? LIMIT 1`,
-            [id]
+          `SELECT id FROM user_accounts WHERE id = ? LIMIT 1`,
+          [id],
         );
 
         if (rows.length === 0) {
           return new Response(
-              JSON.stringify({ message: "User not found",exists: false }),
-              { status: 200, headers: corsHeaders }
+            JSON.stringify({ message: "User not found", exists: false }),
+            { status: 200, headers: corsHeaders },
           );
         }
 
         return new Response(
-            JSON.stringify({ message: "User found", exists: true, userID: rows[0].id }),
-            {
-              status: 200,
-              headers: {
-                "Content-Type": "application/json",
-                ...corsHeaders,
-              },
+          JSON.stringify({
+            message: "User found",
+            exists: true,
+            userID: rows[0].id,
+          }),
+          {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
             },
+          },
         );
       } catch (error) {
         console.error("Error querying database:", error);
         return new Response(
-            JSON.stringify({ message: "Error finding user" }),
-            {
-              status: 500,
-              headers: {
-                "Content-Type": "application/json",
-                ...corsHeaders,
-              },
+          JSON.stringify({ message: "Error finding user" }),
+          {
+            status: 500,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
             },
+          },
         );
       }
     } else {
@@ -179,5 +183,4 @@ Deno.serve(async (req) => {
     // Handle 404 for any other route
     return new Response("Not Found", { status: 404 });
   }
-
 });
