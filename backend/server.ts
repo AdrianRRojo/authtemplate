@@ -88,7 +88,7 @@ Deno.serve(async (req) => {
 
         if (rows.length === 0) {
           return new Response(
-            JSON.stringify({ message: "User not found", exists: false }),
+            JSON.stringify({ message: "User not found", exists: false, userID: 0 }),
             { status: 200, headers: corsHeaders },
           );
         }
@@ -124,6 +124,8 @@ Deno.serve(async (req) => {
       return new Response("Method Not Allowed", { status: 405 });
     }
   }
+
+
   if (url.pathname === "/getUserInfoByID") {
     if (req.method === "GET") {
       try {
@@ -138,13 +140,13 @@ Deno.serve(async (req) => {
         }
 
         const [rows] = await connection.execute<RowDataPacket[]>(
-          `SELECT id FROM user_accounts WHERE id = ? LIMIT 1`,
+          `SELECT password FROM user_accounts WHERE id = ? LIMIT 1`,
           [id],
         );
 
         if (rows.length === 0) {
           return new Response(
-            JSON.stringify({ message: "User not found", exists: false }),
+            JSON.stringify({ message: "User not found", exists: false, pass: "Could not grab user data"}),
             { status: 200, headers: corsHeaders },
           );
         }
@@ -153,8 +155,10 @@ Deno.serve(async (req) => {
           JSON.stringify({
             message: "User found",
             exists: true,
-            userID: rows[0].id,
+            pass: rows[0].password,
+            af: "ok"
           }),
+
           {
             status: 200,
             headers: {
