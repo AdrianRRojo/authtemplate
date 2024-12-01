@@ -3,7 +3,7 @@
 import {LoginFormData} from "../components/login";
 
 import bcrypt from "bcryptjs";
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 
 const salt = bcrypt.genSaltSync(10);
@@ -13,6 +13,7 @@ export const LoginController = async (data: LoginFormData) => {
     const password: string = data.password;
     var errors = false;
     const errorList: string[] = [];
+    const success: string[] = [];
     var errorMsg: string;
    
 
@@ -69,7 +70,7 @@ export const LoginController = async (data: LoginFormData) => {
     }
     const pass = await checkLogin(userID);
 
-    if(!pass){
+    if(pass){
         errorMsg = "Unable to login: Please verify credientials are correct.";
         errorList.push(errorMsg);
         errors = true;
@@ -77,5 +78,16 @@ export const LoginController = async (data: LoginFormData) => {
     
     if(errors){
         return errorList;
+    }else{
+      const today: Date = new Date();
+
+      const signature: any = today + userID;
+
+      var tokenSalt = bcrypt.genSaltSync(10);
+      const token = bcrypt.hashSync(signature,tokenSalt);
+
+      Cookies.set('Login',token, {expires: 2, path: '/'});
+      success.push("Login successful");
+      return success;
     }
 }
