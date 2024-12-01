@@ -70,7 +70,7 @@ export const LoginController = async (data: LoginFormData) => {
     }
     const pass = await checkLogin(userID);
 
-    if(pass){
+    if(!pass){
         errorMsg = "Unable to login: Please verify credientials are correct.";
         errorList.push(errorMsg);
         errors = true;

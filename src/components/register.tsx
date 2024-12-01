@@ -46,7 +46,7 @@ export default function Register() {
         .then((response) => response)
         .catch((e) => console.warn(e));
       if (rcResponse) {
-        console.log("rcResponse is not okay:", rcResponse);
+        // console.log("rcResponse is not okay:", rcResponse);
         rcResponse.map((msg: string, idx: string) => {
           setRcMsg((prevData) => [
             ...prevData,
@@ -57,7 +57,7 @@ export default function Register() {
         //window.location.reload();
       } else {
         //console.log("No good:", rcResponse);
-        navigate("/home");
+        navigate("/");
         window.location.reload();
       }
     } catch (error) {

@@ -28,13 +28,27 @@ export default function Login() {
         try {
             const rcResponse: any | undefined = await LoginController(formData);
             if (rcResponse) {
-                console.log("rcResponse is not okay:", rcResponse);
-                rcResponse.map((msg: string, idx: string) => {
-                    setRcMsg((prevData) => [
-                        ...prevData,
-                        { id: idx, message: msg },
-                    ]);
-                });
+                // console.log("rcResponse is not okay:", rcResponse[0]);
+                if(rcResponse[0] === "Login successful"){
+                    rcResponse.map((msg: string, idx: string) => {
+                        setRcMsg((prevData) => [
+                            ...prevData,
+                            { id: idx, message: msg },
+                        ]);
+                        
+                    });
+                    redirect();
+                }else{
+                    console.log("rcResponse is not okay:", rcResponse[0]);
+                    rcResponse.map((msg: string, idx: string) => {
+                        setRcMsg((prevData) => [
+                            ...prevData,
+                            { id: idx, message: msg },
+                        ]);
+                        
+                    });
+                }
+                
                 // navigate('/home');
                 //window.location.reload();
             } else {

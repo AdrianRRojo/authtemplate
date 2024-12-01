@@ -11,8 +11,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        {getCookie ? <Route path="/home" Component={Landing} /> : <Route path="/register" Component={Register} />}
+        {getCookie ? <Route path="/" Component={Landing} /> : <Route path="/register" Component={Register} />}
           <Route path="/login" Component={Login} />
+          <Route path="/" Component={Landing} /> 
         {/* <Route path="/" Component={Register} /> */}
       </Routes>
     </Router>
