@@ -28,7 +28,7 @@ export const RegisterController = async (data: FormData) => {
     try{
       const userIdResponse = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
       userID = await userIdResponse.json();
-      //console.log("UserID from RC: ", userID);
+  
       if(!userIdResponse.ok){
         console.log("user id not ok")
         return true
@@ -138,7 +138,7 @@ export const RegisterController = async (data: FormData) => {
       var tokenSalt = bcrypt.genSaltSync(10);
       const token = bcrypt.hashSync(signature,tokenSalt);
     try {
-      const response = await fetch("http://0.0.0.0:8000/register", {
+      const response = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -7,6 +7,7 @@ export default function Landing(){
         window.location.reload();
     }
     const navigate = useNavigate();
+
     return(
         <div>
             Landing
