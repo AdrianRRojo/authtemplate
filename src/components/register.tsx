@@ -6,6 +6,10 @@ export interface FormData {
   fname: string;
   lname: string;
   email: string;
+  address: string;
+  city: string;
+  region: string;
+  postal: string;
   password: string;
   phone: string;
 
@@ -23,6 +27,10 @@ export default function Register() {
     fname: "",
     lname: "",
     email: "",
+    address: "",
+    city: "",
+    region: "",
+    postal: "",
     password: "",
     phone: "",
   });
@@ -225,17 +233,19 @@ export default function Register() {
                   />
                 </div>
               </div>
-              {/* <div className="col-span-full">
-                <label htmlFor="street-address" className="block text-sm/6 font-medium text-gray-900">
+              <div className="col-span-full">
+                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
                   Street address
                 </label>
                 <div className="mt-2">
                   <input
-                    id="street-address"
-                    name="street-address"
+                    id="address"
+                    name="address"
                     type="text"
                     autoComplete="street-address"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                    onChange={handleInputChange}
+                    value={formData.address}
                   />
                 </div>
               </div>
@@ -251,6 +261,8 @@ export default function Register() {
                     type="text"
                     autoComplete="address-level2"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                    onChange={handleInputChange}
+                    value={formData.city}
                   />
                 </div>
               </div>
@@ -266,24 +278,28 @@ export default function Register() {
                     type="text"
                     autoComplete="address-level1"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                    onChange={handleInputChange}
+                    value={formData.region}
                   />
                 </div>
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="postal-code" className="block text-sm/6 font-medium text-gray-900">
+                <label htmlFor="postal" className="block text-sm/6 font-medium text-gray-900">
                   ZIP / Postal code
                 </label>
                 <div className="mt-2">
                   <input
-                    id="postal-code"
-                    name="postal-code"
+                    id="postal"
+                    name="postal"
                     type="text"
-                    autoComplete="postal-code"
+                    autoComplete="postal"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
+                    onChange={handleInputChange}
+                    value={formData.postal}
                   />
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
           <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">

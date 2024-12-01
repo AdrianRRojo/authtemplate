@@ -32,11 +32,11 @@ Deno.serve(async (req) => {
         const body = await req.json();
         console.log("Received body:", body);
 
-        const { fname, lname, email, password, phone } = body;
+        const { fname, lname, email, address, city, region, postal, password, phone } = body;
 
         await connection.execute(
-          `INSERT INTO user_accounts (fname, lname, email, password, phone) VALUES (?, ?, ?, ?, ?)`,
-          [fname, lname, email, password, phone],
+          `INSERT INTO user_accounts (fname, lname, email, address, city, region, postal, password, phone) VALUES (?,?,?,?,?,?,?,?,?)`,
+          [fname, lname, email, address, city, region, postal, password, phone],
         );
 
         return new Response(

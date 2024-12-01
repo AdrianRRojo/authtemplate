@@ -15,10 +15,12 @@ export const RegisterController = async (data: FormData) => {
   var errors = false;
   var errorMsg: string;
   const errorList: string[] = [];
-  var email = data.email;
-  var fname = data.fname;
-  var lname = data.lname;
-  var password = data.password;
+  var email: string = data.email;
+  var address: string = data.address;
+  var postal: string = data.postal;
+  var fname: string = data.fname;
+  var lname: string = data.lname;
+  var password: string = data.password;
   var userID: any | undefined;
 
   const CheckIfUserExists = async(email: string) => {
@@ -54,6 +56,18 @@ export const RegisterController = async (data: FormData) => {
   // Length checks
   if (email.length < 4) {
     errorMsg = "Please set a valid email";
+    errorList.push(errorMsg);
+    errors = true;
+  }
+  if (address.length < 4) {
+    errorMsg = "Please set a valid street address";
+    errorList.push(errorMsg);
+    errors = true;
+  }
+  console.log(postal.length)
+  if (postal.length > 6) {
+    
+    errorMsg = "Please set a valid postal";
     errorList.push(errorMsg);
     errors = true;
   }
