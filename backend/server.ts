@@ -156,7 +156,6 @@ Deno.serve(async (req) => {
             message: "User found",
             exists: true,
             pass: rows[0].password,
-            af: "ok"
           }),
 
           {
