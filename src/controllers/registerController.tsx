@@ -1,5 +1,5 @@
 import {FormData} from "../components/register";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs-react";
 import Cookies from 'js-cookie';
 
 
@@ -15,6 +15,7 @@ export const RegisterController = async (data: FormData) => {
   var errors = false;
   var errorMsg: string;
   const errorList: string[] = [];
+  const success: string[] = [];
   var email: string = data.email;
   var address: string = data.address;
   var postal: string = data.postal;
@@ -22,7 +23,8 @@ export const RegisterController = async (data: FormData) => {
   var lname: string = data.lname;
   var password: string = data.password;
   var userID: any | undefined;
-
+  email = data.email.toLowerCase();
+  data.email = data.email.toLowerCase();
   const CheckIfUserExists = async(email: string) => {
     const searchParams  = new URLSearchParams({
       email: email
@@ -43,7 +45,7 @@ export const RegisterController = async (data: FormData) => {
     }
   }
   
-  const userExists = await CheckIfUserExists(data.email);
+  const userExists = await CheckIfUserExists(email);
 
   if(userExists){
    
@@ -161,6 +163,7 @@ export const RegisterController = async (data: FormData) => {
         },
         body: JSON.stringify(data),
       });
+      
 
       if (!response.ok) {
         throw new Error("Failed to register user");
@@ -169,11 +172,12 @@ export const RegisterController = async (data: FormData) => {
         // setCookie('login', true, {path: '/', maxAge: 100000})
      
         Cookies.set('Login',token, {expires: 2, path: '/'});
-        
+        success.push("Registration Successful");
+        return success;
       }
 
-      const info = await response.json();
-      console.log("info: ", info);
+      // const info = await response.json();
+      // console.log("info: ", info);
 
       
     } catch (error) {
