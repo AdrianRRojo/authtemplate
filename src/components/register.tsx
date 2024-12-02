@@ -40,25 +40,33 @@ export default function Register() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
- 
+
     try {
       setFormData((prevData) => ({
         ...prevData,
         phone,
       }));
-      const rcResponse: any | undefined = await RegisterController(formData)
-        .then((response) => response)
-        .catch((e) => console.warn(e));
-      if (rcResponse) {
-        // console.log("rcResponse is not okay:", rcResponse);
-        rcResponse.map((msg: string, idx: string) => {
-          setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);
-        });
-        // navigate('/home');
-        //window.location.reload();
-      } else {
-        navigate("/");
-        window.location.reload();
+      try {
+        const rcResponse: any | undefined = await RegisterController(formData);
+        if (rcResponse) {
+          if (rcResponse[0] === "Registration Successful") {
+            rcResponse.map((msg: string, idx: string) => {
+              setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);
+            });
+            navigate('/')
+          } else {
+            rcResponse.map((msg: string, idx: string) => {
+              setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);
+            });
+          }
+
+          // navigate('/home');
+          //window.location.reload();
+        } else {
+          console.log("No good:", rcResponse);
+        }
+      } catch (error) {
+        console.log("Error", error);
       }
     } catch (error) {
       console.log("Error", error);
@@ -306,7 +314,7 @@ export default function Register() {
                   State
                 </label>
                 <div className="mt-2">
-                <input
+                  <input
                     id="region"
                     name="region"
                     type="text"

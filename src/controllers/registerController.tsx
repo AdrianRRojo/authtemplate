@@ -15,6 +15,7 @@ export const RegisterController = async (data: FormData) => {
   var errors = false;
   var errorMsg: string;
   const errorList: string[] = [];
+  const success: string[] = [];
   var email: string = data.email;
   var address: string = data.address;
   var postal: string = data.postal;
@@ -169,11 +170,12 @@ export const RegisterController = async (data: FormData) => {
         // setCookie('login', true, {path: '/', maxAge: 100000})
      
         Cookies.set('Login',token, {expires: 2, path: '/'});
-        
+        success.push("Registration Successful");
+        return success;
       }
 
-      const info = await response.json();
-      console.log("info: ", info);
+      // const info = await response.json();
+      // console.log("info: ", info);
 
       
     } catch (error) {
