@@ -23,7 +23,8 @@ export const RegisterController = async (data: FormData) => {
   var lname: string = data.lname;
   var password: string = data.password;
   var userID: any | undefined;
-
+  email = data.email.toLowerCase();
+  data.email = data.email.toLowerCase();
   const CheckIfUserExists = async(email: string) => {
     const searchParams  = new URLSearchParams({
       email: email
@@ -44,7 +45,7 @@ export const RegisterController = async (data: FormData) => {
     }
   }
   
-  const userExists = await CheckIfUserExists(data.email);
+  const userExists = await CheckIfUserExists(email);
 
   if(userExists){
    
@@ -162,6 +163,7 @@ export const RegisterController = async (data: FormData) => {
         },
         body: JSON.stringify(data),
       });
+      
 
       if (!response.ok) {
         throw new Error("Failed to register user");

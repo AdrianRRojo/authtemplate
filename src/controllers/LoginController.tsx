@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 const salt = bcrypt.genSaltSync(10);
 
 export const LoginController = async (data: LoginFormData) => {
-    const email: string = data.email;
+    const email: string = data.email.toLowerCase();
     const password: string = data.password;
     var errors = false;
     const errorList: string[] = [];
