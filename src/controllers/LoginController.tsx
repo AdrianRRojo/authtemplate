@@ -2,7 +2,7 @@
 
 import {LoginFormData} from "../components/login";
 
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs-react";
 import Cookies from 'js-cookie';
 
 
@@ -58,7 +58,7 @@ export const LoginController = async (data: LoginFormData) => {
                 throw new Error("Error getting user data");
             }else{
                 if(getPassResponse.exists == true){
-                    console.log(getPassResponse);
+                    // console.log(getPassResponse);
                     return bcrypt.compareSync(password, getPassResponse.pass);
                 }else{
                     return false;

@@ -1,5 +1,5 @@
 import {FormData} from "../components/register";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs-react";
 import Cookies from 'js-cookie';
 
 

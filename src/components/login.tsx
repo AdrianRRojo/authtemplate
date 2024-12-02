@@ -37,7 +37,7 @@ export default function Login() {
                         ]);
                         
                     });
-                    redirect();
+                    navigate('/');
                 }else{
                     console.log("rcResponse is not okay:", rcResponse[0]);
                     rcResponse.map((msg: string, idx: string) => {
