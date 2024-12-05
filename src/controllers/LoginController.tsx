@@ -1,6 +1,6 @@
 
 
-import {LoginFormData} from "../components/login";
+import {LoginFormData} from "../pages/login";
 
 import bcrypt from "bcryptjs-react";
 import Cookies from 'js-cookie';
@@ -20,9 +20,8 @@ export const LoginController = async (data: LoginFormData) => {
     const findUserByEmail = async (email: string) => {
         
         const searchParams = new URLSearchParams({email: email});
-        console.log(`http://${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail/${searchParams}`)
         try{
-            const getUser = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
+            const getUser = await fetch(`${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
             
             const getUserResponse = await getUser.json();
 
@@ -50,7 +49,7 @@ export const LoginController = async (data: LoginFormData) => {
         const searchParams = new URLSearchParams({id: userID});
 
         try{
-            const getPass = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserInfoByID?${searchParams}`);
+            const getPass = await fetch(`${process.env.REACT_APP_SERVER_URL}/getUserInfoByID?${searchParams}`);
 
             const getPassResponse = await getPass.json();
 

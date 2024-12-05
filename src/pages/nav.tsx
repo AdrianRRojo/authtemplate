@@ -1,16 +1,18 @@
+import { useState } from "react";
 import Cookies from "js-cookie";
 import ar from "../imgs/ar-removedbg.png";
 
-import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
   const getCookie = Cookies.get("Login");
 
 
-
+  const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => {
-    // NEED TO FILL THIS
+    setIsOpen(false)
+  }
+  const openMenu = () => {
+    setIsOpen(true)
   }
   return (
     <header className="bg-gray-900">
@@ -26,6 +28,7 @@ export default function Nav() {
         <div className="flex lg:hidden">
           <button
             type="button"
+            onClick={openMenu}
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
           >
             <span className="sr-only">Open main menu</span>
@@ -71,7 +74,8 @@ export default function Nav() {
         </div>
       </nav>
       {/* <!-- Mobile menu --> */}
-      <div className="lg:hidden" role="dialog" aria-modal="true">
+      {isOpen && (
+      <div className="block" role="dialog" aria-modal="true">
         <div className="fixed inset-0 z-10"></div>
         <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
           <div className="flex items-center justify-between">
@@ -145,6 +149,7 @@ export default function Nav() {
           </div>
         </div>
       </div>
+      )}
     </header>
   );
 }

@@ -30,7 +30,7 @@ Deno.serve(async (req) => {
     if (req.method === "POST") {
       try {
         const body = await req.json();
-        console.log("Received body:", body);
+        // console.log("Received body:", body);
 
         const { fname, lname, email, address, city, region, postal, password, phone } = body;
 
@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
           },
         );
       } catch (error) {
-        console.error("Error inserting into database:", error);
+        // console.error("Error inserting into database:", error);
         return new Response(
           JSON.stringify({ message: "Error inserting data" }),
           {
@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
         );
       }
     } else {
-      console.log("method:", req.method);
+      // console.log("method:", req.method);
       return new Response("Method Not Allowed", { status: 405 });
     }
   }
@@ -108,7 +108,7 @@ Deno.serve(async (req) => {
           },
         );
       } catch (error) {
-        console.error("Error querying database:", error);
+        // console.error("Error querying database:", error);
         return new Response(
           JSON.stringify({ message: "Error finding user" }),
           {
@@ -167,7 +167,7 @@ Deno.serve(async (req) => {
           },
         );
       } catch (error) {
-        console.error("Error querying database:", error);
+        // console.error("Error querying database:", error);
         return new Response(
           JSON.stringify({ message: "Error finding user" }),
           {

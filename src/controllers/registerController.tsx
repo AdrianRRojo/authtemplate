@@ -1,4 +1,4 @@
-import {FormData} from "../components/register";
+import {FormData} from "../pages/register";
 import bcrypt from "bcryptjs-react";
 import Cookies from 'js-cookie';
 
@@ -30,11 +30,11 @@ export const RegisterController = async (data: FormData) => {
       email: email
     })
     try{
-      const userIdResponse = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
+      const userIdResponse = await fetch(`${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
       userID = await userIdResponse.json();
   
       if(!userIdResponse.ok){
-        console.log("user id not ok")
+        // console.log("user id not ok")
         return true
       }
 
@@ -66,7 +66,7 @@ export const RegisterController = async (data: FormData) => {
     errorList.push(errorMsg);
     errors = true;
   }
-  console.log(postal.length)
+  // console.log(postal.length)
   if (postal.length > 6) {
     
     errorMsg = "Please set a valid postal";
@@ -154,7 +154,7 @@ export const RegisterController = async (data: FormData) => {
       var tokenSalt = bcrypt.genSaltSync(10);
       const token = bcrypt.hashSync(signature,tokenSalt);
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/register`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
