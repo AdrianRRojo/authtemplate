@@ -1,5 +1,5 @@
 import {FormData} from "../components/register";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs-react";
 import Cookies from 'js-cookie';
 
 
@@ -15,12 +15,16 @@ export const RegisterController = async (data: FormData) => {
   var errors = false;
   var errorMsg: string;
   const errorList: string[] = [];
-  var email = data.email;
-  var fname = data.fname;
-  var lname = data.lname;
-  var password = data.password;
+  const success: string[] = [];
+  var email: string = data.email;
+  var address: string = data.address;
+  var postal: string = data.postal;
+  var fname: string = data.fname;
+  var lname: string = data.lname;
+  var password: string = data.password;
   var userID: any | undefined;
-
+  email = data.email.toLowerCase();
+  data.email = data.email.toLowerCase();
   const CheckIfUserExists = async(email: string) => {
     const searchParams  = new URLSearchParams({
       email: email
@@ -28,7 +32,7 @@ export const RegisterController = async (data: FormData) => {
     try{
       const userIdResponse = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
       userID = await userIdResponse.json();
-      //console.log("UserID from RC: ", userID);
+  
       if(!userIdResponse.ok){
         console.log("user id not ok")
         return true
@@ -41,7 +45,7 @@ export const RegisterController = async (data: FormData) => {
     }
   }
   
-  const userExists = await CheckIfUserExists(data.email);
+  const userExists = await CheckIfUserExists(email);
 
   if(userExists){
    
@@ -54,6 +58,18 @@ export const RegisterController = async (data: FormData) => {
   // Length checks
   if (email.length < 4) {
     errorMsg = "Please set a valid email";
+    errorList.push(errorMsg);
+    errors = true;
+  }
+  if (address.length < 4) {
+    errorMsg = "Please set a valid street address";
+    errorList.push(errorMsg);
+    errors = true;
+  }
+  console.log(postal.length)
+  if (postal.length > 6) {
+    
+    errorMsg = "Please set a valid postal";
     errorList.push(errorMsg);
     errors = true;
   }
@@ -138,7 +154,7 @@ export const RegisterController = async (data: FormData) => {
       var tokenSalt = bcrypt.genSaltSync(10);
       const token = bcrypt.hashSync(signature,tokenSalt);
     try {
-      const response = await fetch("http://0.0.0.0:8000/register", {
+      const response = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -147,6 +163,7 @@ export const RegisterController = async (data: FormData) => {
         },
         body: JSON.stringify(data),
       });
+      
 
       if (!response.ok) {
         throw new Error("Failed to register user");
@@ -155,11 +172,12 @@ export const RegisterController = async (data: FormData) => {
         // setCookie('login', true, {path: '/', maxAge: 100000})
      
         Cookies.set('Login',token, {expires: 2, path: '/'});
-        
+        success.push("Registration Successful");
+        return success;
       }
 
-      const info = await response.json();
-      console.log("info: ", info);
+      // const info = await response.json();
+      // console.log("info: ", info);
 
       
     } catch (error) {

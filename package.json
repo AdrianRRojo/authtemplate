@@ -11,7 +11,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "axios": "^1.7.7",
-    "bcryptjs": "^2.4.3",
+    "bcryptjs-react": "^2.4.6",
     "crypto-browserify": "^3.12.1",
     "dotenv": "^16.4.5",
     "js-cookie": "^3.0.5",
@@ -48,7 +48,6 @@
     ]
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
     "@types/js-cookie": "^3.0.6",
     "tailwindcss": "^3.4.15",
     "webpack-merge": "^6.0.1"
