@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RegisterController } from "../controllers/registerController";
 import { useNavigate } from "react-router-dom";
+import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
 export interface FormData {
   fname: string;
   lname: string;
@@ -53,7 +54,7 @@ export default function Register() {
             rcResponse.map((msg: string, idx: string) => {
               setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);
             });
-            navigate('/')
+            navigate("/");
           } else {
             rcResponse.map((msg: string, idx: string) => {
               setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);
@@ -117,13 +118,22 @@ export default function Register() {
     navigate("/login");
   };
 
-  const [reqBlock, setReqBlock] = useState("hidden");
-  const passwordReq = () => {
-    setReqBlock("block");
+  const [isHovering, setIsHovering] = useState(false);
+  // const passwordReq = () => {
+  //   setReqBlock("block");
+  // };
+  // const passwordReqRemove = () => {
+  //   setReqBlock("hidden");
+  // };
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
   };
-  const passwordReqRemove = () => {
-    setReqBlock("hidden");
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
   };
+
   return (
     <div className="bg-sky-700">
       <div className="flex flex-row min-h-screen justify-center items-center">
@@ -197,38 +207,43 @@ export default function Register() {
               </div>
 
               <div className="sm:col-span-3">
-                <div
-                  className={`${reqBlock} absolute inline-flex items-center justify-center max-w-full overflow-hidden rounded-lg bg-slate-50 border-dashed border-2 border-gray-300 shadow`}
-                >
-                  <div className="px-4 py-5 sm:p-6">
-                    <ol>
-                      <li>Must contain a number</li>
-                      <li>Must contain a capital letter</li>
-                      <li>Must contain a special character (i.e: !, ?, $)</li>
-                      <li>Must be at least 6 characters in length</li>
-                    </ol>
+                {isHovering && (
+                  <div className="absolute inline-flex items-center justify-center w-3/12 overflow-hidden rounded-lg bg-slate-50 border-dashed border-2 border-gray-300 shadow">
+                    <div className="px-4 py-5 sm:p-6">
+                      <ol>
+                        <li>Must contain a number</li>
+                        <li>Must contain a capital letter</li>
+                        <li>Must contain a special character (i.e: !, ?, $)</li>
+                        <li>Must be at least 6 characters in length</li>
+                      </ol>
+                    </div>
                   </div>
-                </div>
+                )}
                 <label
                   htmlFor="password"
                   className="flex items-center text-sm font-medium text-gray-900"
                 >
                   Password
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.25"
-                    stroke="currentColor"
-                    className="w-5 h-5 ml-2"
-                    onMouseOverCapture={passwordReq}
+                  <div
+                    className="relative"
+                    onMouseOver={handleMouseOver}
+                    onMouseOut={handleMouseOut}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
-                    />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.25"
+                      stroke="currentColor"
+                      className="w-5 h-5 ml-2 hover:block"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+                      />
+                    </svg>
+                  </div>
                 </label>
                 <div className="mt-2">
                   <input
