@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RegisterController } from "../controllers/registerController";
 import { useNavigate } from "react-router-dom";
-import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
+import Cookies from "js-cookie";
 export interface FormData {
   fname: string;
   lname: string;
@@ -39,6 +39,8 @@ export default function Register() {
 
   const [rcMsg, setRcMsg] = useState<rcMessages[]>([{ id: "", message: "" }]);
 
+  const getCookie = Cookies.get('Login');
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -50,11 +52,12 @@ export default function Register() {
       try {
         const rcResponse: any | undefined = await RegisterController(formData);
         if (rcResponse) {
-          if (rcResponse[0] === "Registration Successful") {
+          if (getCookie) {
+            navigate("/");
             rcResponse.map((msg: string, idx: string) => {
               setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);
             });
-            navigate("/");
+            
           } else {
             rcResponse.map((msg: string, idx: string) => {
               setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);

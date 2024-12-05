@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
-import Register from './components/register';
-import Landing from './components/Landing';
-import Nav from './components/nav';
-import Login from './components/login';
+import Register from './pages/register';
+import Landing from './pages/landing';
+import Account from './pages/account';
+import Nav from './pages/nav';
+import Login from './pages/login';
 import Cookies from 'js-cookie';
 
 function App() {
@@ -14,9 +15,11 @@ function App() {
     <Router>
       <Nav />
       <Routes>
-        {getCookie ? <Route path="/" Component={Landing} /> : <Route path="/register" Component={Register} />}
+        {getCookie ? <Route path="/" Component={Landing} /> : <Route path="/" Component={Register} />}
           <Route path="/login" Component={Login} />
           <Route path="/" Component={Landing} /> 
+          <Route path="/account" Component={Account} /> 
+          <Route path="/register" Component={Register} />
         {/* <Route path="/" Component={Register} /> */}
       </Routes>
     </Router>

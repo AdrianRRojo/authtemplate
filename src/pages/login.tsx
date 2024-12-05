@@ -28,7 +28,7 @@ export default function Login() {
         try {
             const rcResponse: any | undefined = await LoginController(formData);
             if (rcResponse) {
-                // console.log("rcResponse is not okay:", rcResponse[0]);
+
                 if(rcResponse[0] === "Login successful"){
                     rcResponse.map((msg: string, idx: string) => {
                         setRcMsg((prevData) => [
@@ -39,7 +39,7 @@ export default function Login() {
                     });
                     navigate('/');
                 }else{
-                    console.log("rcResponse is not okay:", rcResponse[0]);
+
                     rcResponse.map((msg: string, idx: string) => {
                         setRcMsg((prevData) => [
                             ...prevData,
@@ -76,12 +76,12 @@ export default function Login() {
     return (
         <div className="bg-sky-700">
             <div className="flex flex-row min-h-screen justify-center items-center">
-                <form onSubmit={handleSubmit} className="w-4/12 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
+                <form onSubmit={handleSubmit} className=" bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 ">
                     <div className="px-4 py-6 sm:p-8 flex flex-row justify-center items-center ">
-                        <div className="grid w-10/12 grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div className="">
 
 
-                            <div className="sm:col-span-6">
+                            <div className="sm:col-span-4">
                                 <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                                     Email address
                                 </label>
@@ -91,7 +91,7 @@ export default function Login() {
                                         name="email"
                                         type="email"
                                         autoComplete="email"
-                                        className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
+                                        className="block pl-3 w-96 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
                                         onChange={handleInputChange}
                                         value={formData.email}
                                         required
@@ -99,7 +99,7 @@ export default function Login() {
                                 </div>
                             </div>
 
-                            <div className="sm:col-span-3">
+                            <div className="sm:col-span-4">
                                 <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
                                     Password
                                 </label>
@@ -108,7 +108,7 @@ export default function Login() {
                                         id="password"
                                         type="password"
                                         name="password"
-                                        className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
+                                        className="w-96 block pl-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm/6"
                                         onChange={handleInputChange}
                                         value={formData.password}
                                         required
