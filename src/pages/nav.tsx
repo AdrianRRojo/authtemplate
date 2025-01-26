@@ -49,7 +49,7 @@ export default function Nav() {
             </svg>
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        {/* <div className="hidden lg:flex lg:gap-x-12">
           <a href="/product" className="text-sm/6 font-semibold text-white">
             Product
           </a>
@@ -59,7 +59,7 @@ export default function Nav() {
           <a href="/contact" className="text-sm/6 font-semibold text-white">
             Contact Us
           </a>
-        </div>
+        </div> */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {getCookie ? (
             <a href="/account" className="text-sm/6 font-semibold text-white">
