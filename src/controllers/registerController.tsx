@@ -17,8 +17,7 @@ export const RegisterController = async (data: FormData) => {
   const errorList: string[] = [];
   const success: string[] = [];
   var email: string = data.email;
-  var address: string = data.address;
-  var postal: string = data.postal;
+
   var fname: string = data.fname;
   var lname: string = data.lname;
   var password: string = data.password;
@@ -61,18 +60,7 @@ export const RegisterController = async (data: FormData) => {
     errorList.push(errorMsg);
     errors = true;
   }
-  if (address.length < 4) {
-    errorMsg = "Please set a valid street address";
-    errorList.push(errorMsg);
-    errors = true;
-  }
-  // console.log(postal.length)
-  if (postal.length > 6) {
-    
-    errorMsg = "Please set a valid postal";
-    errorList.push(errorMsg);
-    errors = true;
-  }
+
   if (fname.length < 2) {
     errorMsg = "First name length is invalid";
     errorList.push(errorMsg);
@@ -126,14 +114,7 @@ export const RegisterController = async (data: FormData) => {
       errors = true;
   }
 
-  const hasNumber = /\d/.test(password);
 
-  if (!hasNumber) {
-    errorMsg =
-      "Please ensure password meets all requirements: Does not contain a number";
-      errorList.push(errorMsg);
-      errors = true;
-  }
 
   if (errors) {
     return errorList;

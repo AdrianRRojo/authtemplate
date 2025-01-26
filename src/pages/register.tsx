@@ -6,12 +6,12 @@ export interface FormData {
   fname: string;
   lname: string;
   email: string;
-  address: string;
-  city: string;
-  region: string;
-  postal: string;
+  // address: string;
+  // city: string;
+  // region: string;
+  // postal: string;
   password: string;
-  phone: string;
+  // phone: string;
 }
 
 interface rcMessages {
@@ -26,16 +26,15 @@ export default function Register() {
     fname: "",
     lname: "",
     email: "",
-    address: "",
-    city: "",
-    region: "",
-    postal: "",
+    // address: "",
+    // city: "",
+    // region: "",
+    // postal: "",
     password: "",
-    phone: "",
+    // phone: "",
   });
 
-  const [phone, setPhone] = useState("+1 ");
-  useEffect(() => {}, [formData.phone]);
+
 
   const [rcMsg, setRcMsg] = useState<rcMessages[]>([{ id: "", message: "" }]);
 
@@ -45,10 +44,7 @@ export default function Register() {
     event.preventDefault();
 
     try {
-      setFormData((prevData) => ({
-        ...prevData,
-        phone,
-      }));
+
       try {
         const rcResponse: any | undefined = await RegisterController(formData);
         if (rcResponse) {
@@ -76,37 +72,7 @@ export default function Register() {
       console.log("Error", error);
     }
   };
-  const formatThePhoneNumber = (
-    value: string,
-    onChange: (phoneNumber: string) => void
-  ) => {
-    // Remove non-digit characters except the '+' symbol
-    const cleanedValue = value.replace(/\D/g, "");
 
-    let formattedValue = "+1";
-
-    if (cleanedValue.length > 1) {
-      if (cleanedValue.length > 1) {
-        formattedValue += ` (${cleanedValue.slice(1, 4)})`;
-      }
-
-      if (cleanedValue.length > 4) {
-        formattedValue += ` ${cleanedValue.slice(4, 7)}`;
-      }
-
-      if (cleanedValue.length > 7) {
-        formattedValue += `-${cleanedValue.slice(7, 11)}`;
-      }
-    }
-
-    if (cleanedValue.length <= 1) {
-      formattedValue = "+1";
-    }
-
-    setPhone(formattedValue);
-    onChange(formattedValue);
-    // <input type="hidden" name="phone" value={phone} onChange={handleInputChange} hidden/>
-  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -122,12 +88,6 @@ export default function Register() {
   };
 
   const [isHovering, setIsHovering] = useState(false);
-  // const passwordReq = () => {
-  //   setReqBlock("block");
-  // };
-  // const passwordReqRemove = () => {
-  //   setReqBlock("hidden");
-  // };
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -261,110 +221,6 @@ export default function Register() {
                 </div>
               </div>
 
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="phoneForm"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Phone Number
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="phoneForm"
-                    type="text"
-                    name="phoneForm"
-                    maxLength={20}
-                    className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm/6"
-                    onChange={(e) =>
-                      formatThePhoneNumber(e.target.value, setPhone)
-                    }
-                    value={phone}
-                  />
-                </div>
-              </div>
-              <div className="col-span-full">
-                <label
-                  htmlFor="address"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Street address
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="address"
-                    name="address"
-                    type="text"
-                    autoComplete="street-address"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
-                    onChange={handleInputChange}
-                    value={formData.address}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2 sm:col-start-1">
-                <label
-                  htmlFor="city"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  City
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="city"
-                    name="city"
-                    type="text"
-                    autoComplete="address-level2"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
-                    onChange={handleInputChange}
-                    value={formData.city}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="region"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  State
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="region"
-                    name="region"
-                    type="text"
-                    autoComplete="region"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
-                    onChange={handleInputChange}
-                    value={formData.region}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="postal"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  ZIP code
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="postal"
-                    name="postal"
-                    type="text"
-                    autoComplete="postal"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm/6"
-                    onChange={handleInputChange}
-                    value={formData.postal}
-                    required
-                  />
-                </div>
-              </div>
             </div>
           </div>
           <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
