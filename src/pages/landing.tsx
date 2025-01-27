@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { SubmitController } from "../controllers/submitController";
 import { useNavigate } from "react-router-dom";
+// import { Buffer } from "buffer";
 export interface FormData {
   company: string;
   jobTitle: string;
   jobDescription: string;
-  resume: Buffer;
+  resume: Blob | null;
 }
 
 interface rcMessages {
@@ -22,7 +23,7 @@ export default function Landing() {
     company: "",
     jobTitle: "",
     jobDescription: "",
-    resume: Buffer.alloc(0),
+    resume: null,
   });
 
   const [rcMsg, setRcMsg] = useState<rcMessages[]>([{ id: "", message: "" }]);

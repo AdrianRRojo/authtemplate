@@ -16,58 +16,14 @@ export const SubmitController = async (data: FormData) => {
   var errorMsg: string;
   const errorList: string[] = [];
   const success: string[] = [];
-//   var email: string = data.email;
+
 
   var company: string = data.company;
   var jobTitle: string = data.jobTitle;
   var jobDescription: string = data.jobDescription;
-  var resume: Buffer = data.resume;
+  var resume  = data.resume;
   var userID: any | undefined;
 
-  email = data.email.toLowerCase();
-//   data.email = data.email.toLowerCase();
-  const CheckIfUserExists = async(email: string) => {
-    const searchParams  = new URLSearchParams({
-      email: email
-    })
-    try{
-      const userIdResponse = await fetch(`${process.env.REACT_APP_SERVER_URL}/getUserIDByEmail?${searchParams}`);
-      userID = await userIdResponse.json();
-  
-      if(!userIdResponse.ok){
-        // console.log("user id not ok")
-        return true
-      }
-
-      return userID.exists !== false;
-      
-    }catch(error){
-      console.log(error);
-    }
-  }
-  
-  const userExists = await CheckIfUserExists(email);
-
-  if(userExists){
-   
-    errorMsg = "Email already in use";
-    errorList.push(errorMsg);
-    errors = true;
-
-  }
-  const regex = /[^a-zA-Z0-9\s]/;
-  // Length checks
-  if (email.length < 4) {
-    errorMsg = "Please set a valid email";
-    errorList.push(errorMsg);
-    errors = true;
-  }
-
-  if (fname.length < 2) {
-    errorMsg = "First name length is invalid";
-    errorList.push(errorMsg);
-    errors = true;
-  }
   if (jobTitle.length < 2) {
     errorMsg = "Last name length is invalid";
     errorList.push(errorMsg);
@@ -79,65 +35,16 @@ export const SubmitController = async (data: FormData) => {
     errors = true;
   }
 
-  // fname and jobTitle check
-  if(regex.test(fname)){
-    errorMsg =
-      "First and Last name cannot contain special characters.";
-      errorList.push(errorMsg);
-      errors = true;
-  }
-  if(regex.test(fname)){
-    errorMsg =
-      "First and Last name cannot contain special characters.";
-      errorList.push(errorMsg);
-      errors = true;
-  }
-  //jobDescription checks
-  function hasUpperCase(str: string) {
-    for (let i = 0; i < str.length; i++) {
-      if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) <= 90) {
-        return true;
-      }
-    }
-    return false;
-  }
-  if (!hasUpperCase(jobDescription)) {
-    errorMsg =
-      "Please ensure jobDescription meets all requirements: No capitalized character";
-      errorList.push(errorMsg);
-    errors = true;
-  }
-
-
-  if (!regex.test(jobDescription)) {
-    errorMsg =
-      "Please ensure jobDescription meets all requirements: Does not contain a special character";
-      errorList.push(errorMsg);
-      errors = true;
-  }
 
 
 
   if (errors) {
     return errorList;
   } else {
-    //console.log("Data: ", JSON.stringify(data));
-    jobDescription = data.jobDescription;
-    //for log in later:
-    /*
-    bcrypt.compareSync(jobDescription, hashedjobDescription)
-  */
-    data.jobDescription = bcrypt.hashSync(jobDescription, salt);
-    
-      const today: Date = new Date();
+    console.log("Data: ", JSON.stringify(data));
 
-      const fname: string = data.fname;
-      const signature: any = today + fname;
-
-      var tokenSalt = bcrypt.genSaltSync(10);
-      const token = bcrypt.hashSync(signature,tokenSalt);
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/Submit`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/create_CL`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,13 +56,13 @@ export const SubmitController = async (data: FormData) => {
       
 
       if (!response.ok) {
-        throw new Error("Failed to Submit user");
+        throw new Error("Failed to Submit");
       }
       else{
         // setCookie('login', true, {path: '/', maxAge: 100000})
      
-        Cookies.set('Login',token, {expires: 2, path: '/'});
-        success.push("Registration Successful");
+        // Cookies.set('Login',token, {expires: 2, path: '/'});
+        success.push("Submission Successful");
         return success;
       }
 
@@ -164,7 +71,7 @@ export const SubmitController = async (data: FormData) => {
 
       
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Error during Submission:", error);
     }
   }
 };
