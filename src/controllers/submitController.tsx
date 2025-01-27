@@ -16,14 +16,16 @@ export const SubmitController = async (data: FormData) => {
   var errorMsg: string;
   const errorList: string[] = [];
   const success: string[] = [];
-  var email: string = data.email;
+//   var email: string = data.email;
 
-  var fname: string = data.fname;
-  var lname: string = data.lname;
-  var password: string = data.password;
+  var company: string = data.company;
+  var jobTitle: string = data.jobTitle;
+  var jobDescription: string = data.jobDescription;
+  var resume: Buffer = data.resume;
   var userID: any | undefined;
+
   email = data.email.toLowerCase();
-  data.email = data.email.toLowerCase();
+//   data.email = data.email.toLowerCase();
   const CheckIfUserExists = async(email: string) => {
     const searchParams  = new URLSearchParams({
       email: email
@@ -66,18 +68,18 @@ export const SubmitController = async (data: FormData) => {
     errorList.push(errorMsg);
     errors = true;
   }
-  if (lname.length < 2) {
+  if (jobTitle.length < 2) {
     errorMsg = "Last name length is invalid";
     errorList.push(errorMsg);
     errors = true;
   }
-  if (password.length < 6) {
-    errorMsg = "Password length is invalid";
+  if (jobDescription.length < 6) {
+    errorMsg = "jobDescription length is invalid";
     errorList.push(errorMsg);
     errors = true;
   }
 
-  // fname and lname check
+  // fname and jobTitle check
   if(regex.test(fname)){
     errorMsg =
       "First and Last name cannot contain special characters.";
@@ -90,7 +92,7 @@ export const SubmitController = async (data: FormData) => {
       errorList.push(errorMsg);
       errors = true;
   }
-  //password checks
+  //jobDescription checks
   function hasUpperCase(str: string) {
     for (let i = 0; i < str.length; i++) {
       if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) <= 90) {
@@ -99,17 +101,17 @@ export const SubmitController = async (data: FormData) => {
     }
     return false;
   }
-  if (!hasUpperCase(password)) {
+  if (!hasUpperCase(jobDescription)) {
     errorMsg =
-      "Please ensure password meets all requirements: No capitalized character";
+      "Please ensure jobDescription meets all requirements: No capitalized character";
       errorList.push(errorMsg);
     errors = true;
   }
 
 
-  if (!regex.test(password)) {
+  if (!regex.test(jobDescription)) {
     errorMsg =
-      "Please ensure password meets all requirements: Does not contain a special character";
+      "Please ensure jobDescription meets all requirements: Does not contain a special character";
       errorList.push(errorMsg);
       errors = true;
   }
@@ -120,12 +122,12 @@ export const SubmitController = async (data: FormData) => {
     return errorList;
   } else {
     //console.log("Data: ", JSON.stringify(data));
-    password = data.password;
+    jobDescription = data.jobDescription;
     //for log in later:
     /*
-    bcrypt.compareSync(password, hashedPassword)
+    bcrypt.compareSync(jobDescription, hashedjobDescription)
   */
-    data.password = bcrypt.hashSync(password, salt);
+    data.jobDescription = bcrypt.hashSync(jobDescription, salt);
     
       const today: Date = new Date();
 
