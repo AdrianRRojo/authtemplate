@@ -67,6 +67,47 @@ Deno.serve(async (req) => {
       return new Response("Method Not Allowed", { status: 405 });
     }
   }
+  if (url.pathname === "/create_CL") {
+    if (req.method === "POST") {
+      try {
+        const body = await req.json();
+        // console.log("Received body:", body);
+
+        const { job_description, resume } = body;
+
+        await connection.execute(
+          `INSERT INTO documents (resume) VALUES (?)`,
+          [resume],
+        );
+
+        return new Response(
+          JSON.stringify({ message: "User registered successfully!" }),
+          {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          },
+        );
+      } catch (error) {
+        // console.error("Error inserting into database:", error);
+        return new Response(
+          JSON.stringify({ message: "Error inserting data" }),
+          {
+            status: 500,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          },
+        );
+      }
+    } else {
+      // console.log("method:", req.method);
+      return new Response("Method Not Allowed", { status: 405 });
+    }
+  }
 
   if (url.pathname === "/getUserIDByEmail") {
     if (req.method === "GET") {

@@ -6,12 +6,7 @@ export interface FormData {
   fname: string;
   lname: string;
   email: string;
-  // address: string;
-  // city: string;
-  // region: string;
-  // postal: string;
   password: string;
-  // phone: string;
 }
 
 interface rcMessages {
@@ -26,12 +21,7 @@ export default function Register() {
     fname: "",
     lname: "",
     email: "",
-    // address: "",
-    // city: "",
-    // region: "",
-    // postal: "",
     password: "",
-    // phone: "",
   });
 
 
@@ -42,8 +32,6 @@ export default function Register() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    try {
 
       try {
         const rcResponse: any | undefined = await RegisterController(formData);
@@ -68,9 +56,7 @@ export default function Register() {
       } catch (error) {
         console.log("Error", error);
       }
-    } catch (error) {
-      console.log("Error", error);
-    }
+    
   };
 
 
