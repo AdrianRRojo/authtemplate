@@ -6,7 +6,7 @@ export interface FormData {
   company: string;
   jobTitle: string;
   jobDescription: string;
-  resume: Blob | null;
+  resume: string;
 }
 
 interface rcMessages {
@@ -16,6 +16,7 @@ interface rcMessages {
 
 export default function Landing() {
   const [jobDescription, setJobDescription] = useState<string>("");
+  const [resume, setResume] = useState<string>("");
   const [formStep, setFormStep] = useState<number>(1);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Landing() {
     company: "",
     jobTitle: "",
     jobDescription: "",
-    resume: null,
+    resume: "",
   });
 
   const [rcMsg, setRcMsg] = useState<rcMessages[]>([{ id: "", message: "" }]);
@@ -32,6 +33,11 @@ export default function Landing() {
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setJobDescription(e.target.value);
+  };
+  const handleResumeChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setResume(e.target.value);
   };
 
   // Handle job description form submission
@@ -44,18 +50,13 @@ export default function Landing() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setResumeFile(file);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log("Submit");
     e.preventDefault();
+    
     try {
       const rcResponse: any | undefined = await SubmitController(formData);
-
+      console.log("Response: ", rcResponse);
       if (rcResponse) {
         rcResponse.map((msg: string, idx: string) => {
           setRcMsg((prevData) => [...prevData, { id: idx, message: msg }]);
@@ -93,7 +94,7 @@ export default function Landing() {
         <div
           className={`form-section ${formStep === 1 ? "fade-in" : "fade-out"}`}
         >
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleJobDescriptionSubmit}>
             <label
               htmlFor="jobDescription"
               className="block text-sm text-gray-600 mb-2"
@@ -160,19 +161,17 @@ export default function Landing() {
         <div
           className={`form-section ${formStep === 2 ? "fade-in" : "fade-out"}`}
         >
-          <form>
+          <form onSubmit={handleSubmit}>
             <label
               htmlFor="resume"
               className="block text-sm text-gray-600 mb-2"
             >
               Upload your resume:
             </label>
-            <input
-              type="file"
+            <textarea
               id="resume"
-              onChange={handleInputChange}
+              onChange={handleResumeChange}
               className="w-full p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 mb-4"
-              accept=".pdf,.doc,.docx"
               required
             />
             {resumeFile && (

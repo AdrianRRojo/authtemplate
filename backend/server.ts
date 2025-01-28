@@ -73,11 +73,11 @@ Deno.serve(async (req) => {
         const body = await req.json();
         // console.log("Received body:", body);
 
-        const { job_description, resume } = body;
+        const { company, jobTitle, JobDescription, resume } = body;
 
         await connection.execute(
-          `INSERT INTO documents (resume) VALUES (?)`,
-          [resume],
+          `INSERT INTO documents (company, jobTitle, JobDescription, resume) VALUES (?,?,?,?)`,
+          [company, jobTitle, JobDescription, resume],
         );
 
         return new Response(

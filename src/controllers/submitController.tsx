@@ -11,21 +11,21 @@ const salt = bcrypt.genSaltSync(10);
 
 export const SubmitController = async (data: FormData) => {
   // const [cookies, setCookie, removeCookie] = useCookies(['login']);
-
+  console.log("Data: ", data);
   var errors = false;
   var errorMsg: string;
   const errorList: string[] = [];
   const success: string[] = [];
 
 
-  var company: string = data.company;
+  // var company: string = data.company;
   var jobTitle: string = data.jobTitle;
   var jobDescription: string = data.jobDescription;
-  var resume  = data.resume;
-  var userID: any | undefined;
+  // var resume: string = data.resume;
+  // var userID: any | undefined;
 
   if (jobTitle.length < 2) {
-    errorMsg = "Last name length is invalid";
+    errorMsg = "Job title length is invalid";
     errorList.push(errorMsg);
     errors = true;
   }
@@ -34,6 +34,7 @@ export const SubmitController = async (data: FormData) => {
     errorList.push(errorMsg);
     errors = true;
   }
+  
 
 
 
